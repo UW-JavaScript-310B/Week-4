@@ -6,7 +6,7 @@
  * @returns {boolean} isCooked
  */
 const foodIsCooked = function(kind, internalTemp, doneness) {
-
+    // I interpret greater than as >
     return (kind === 'chicken' && internalTemp > 165) ||
         (kind === 'beef' && doneness === 'rare' && internalTemp > 125) ||
         (kind === 'beef' && doneness === 'medium' && internalTemp > 135) ||
