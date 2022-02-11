@@ -6,7 +6,11 @@
  * @returns {boolean} isCooked
  */
 const foodIsCooked = function(kind, internalTemp, doneness) {
-  // Write function HERE
+
+    return (kind === 'chicken' && internalTemp > 165) ||
+        (kind === 'beef' && doneness === 'rare' && internalTemp > 125) ||
+        (kind === 'beef' && doneness === 'medium' && internalTemp > 135) ||
+        (kind === 'beef' && doneness === 'well' && internalTemp > 155);
 
 }
 
