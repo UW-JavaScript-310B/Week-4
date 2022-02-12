@@ -75,31 +75,22 @@ const cards = [{
 const cardsWorthTen = cards => {
 
   let filteredCards = cards.filter((card) => card.val === 10);
-
-  // return (filteredCards);
+  let filteredVal = [];
 
   for (let i = 0; i < filteredCards.length; i++) {
 
-let filteredVal =  console.log(`${filteredCards[i].displayVal}`);
-    //  return (filteredVal);
-    // 
+    filteredVal = console.log(`${filteredCards[i].displayVal}`);
 
   };
 
-  // return (filteredVal);
+  return (filteredVal)
 };
 
 
 
-console.log(cardsWorthTen(cards));
+cardsWorthTen(cards);
 
-// should return/log "10, Jack, Queen, King"
-
-
-
-
-// cardsWorthTen(cards).join(', ');
-// let cardVal = cards.map(card => card.val);
-// console.log(cards.cardVal);
+// let myArray = (cardsWorthTen(cards).join(', '));
+// console.log(myArray);
 
 // should return/log "10, Jack, Queen, King"
