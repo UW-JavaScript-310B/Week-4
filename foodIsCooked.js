@@ -7,23 +7,15 @@
  */
 const foodIsCooked = function(kind, internalTemp, doneness) {
   if (kind === 'chicken') {
-    if (internalTemp >= 165) {
-      return true;
-    }
+    return internalTemp >= 165
   } else if (kind === 'beef' && doneness === "well") {
-    if (internalTemp >= 155) {
-      return true;
-    }
+    return internalTemp >= 155
   } else if (kind === 'beef' && doneness === 'medium') {
-    if (internalTemp >= 135) {
-      return true;
-    }
+    return internalTemp >= 135
   } else if (kind === 'beef' && doneness === 'rare') {
-    if (internalTemp >= 125) {
-      return true;
-    }
+    return internalTemp >= 125;
   }
-  return false;
+  return error;
 }
 
 // Test function

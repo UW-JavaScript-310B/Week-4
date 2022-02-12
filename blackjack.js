@@ -5,11 +5,15 @@ const blackjackDeck = getDeck();
  * @constructor
  * @param {string} name - The name of the player
  */
-class CardPlayer {}; //TODO
+class CardPlayer {
+  constructor (name) {
+    this.name = name;
+  }
+};
 
 // CREATE TWO NEW CardPlayers
-const dealer; // TODO
-const player; // TODO
+const dealer = new CardPlayer("Dealer");
+const player = new CardPlayer("Joel");
 
 /**
  * Calculates the score of a Blackjack hand
