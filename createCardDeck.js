@@ -5,14 +5,15 @@
 const getDeck = () => {
 
   const suits = ['clubs', 'diamonds', 'hearts', 'spades'];
-  const cards = [];
+  let cards = [];
   // let suit = [];
 
-
   for (let i = 0; i < suits.length; i++) {
-    let displayVal
-    let val
 
+    let displayVal;
+    let val;
+
+    //create a new card with value 1-13 for each suit
     for (let j = 1; j <= 13; j++) {
       switch (j) {
         case (j === 1):
@@ -30,35 +31,35 @@ const getDeck = () => {
         case (j === 13):
           displayVal = 'King';
           val = 10;
-        // default:
+          // default:
           // displayVal = '';
           // val = 0;
       }
 
-      console.log(j);
-      console.log(displayVal);
-      console.log(val);
-      console.log(suits[i])
+   console.log(j,  displayVal,  displayVal, suits[i]);
+      // return(j, displayVal, val, suits[i]);
 
+      //push the card deck into the card array
       cards.push({
         val,
         displayVal,
         suit: suits[i]
       });
 
+//  console.log(j, cards.displayVal, cards.displayVal, suits[i]);
+
     };
-
-
-
-    console.log(cards)
-
+    // return(cards)
   };
+
 };
 
 
 
-// CHECKS
+//CHECKS
 const deck = getDeck();
+
+
 console.log(`Deck length equals 52? ${deck.length === 52}`);
 
 const randomCard = deck[Math.floor(Math.random() * 52)];
