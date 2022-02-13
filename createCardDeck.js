@@ -29,15 +29,15 @@ const getDeck = () => {
           break;
         case 11:
           displayVal = "jack";
-          val = j;
+          val = 10;
           break;
         case 12:
           displayVal = "queen";
-          val = j;
+          val = 10;
           break;
         case 13:
           displayVal = "king";
-          val = j;
+          val = 10;
         default:
           break;
       }
