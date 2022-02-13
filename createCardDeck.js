@@ -6,8 +6,8 @@ const getDeck = () => {
 
   const suits = ['clubs', 'diamonds', 'hearts', 'spades'];
   let cards = [];
-  // let suit = [];
 
+  //loop thru four suits and associate 13 cards with each
   for (let i = 0; i < suits.length; i++) {
 
     let displayVal;
@@ -15,46 +15,55 @@ const getDeck = () => {
 
     //create a new card with value 1-13 for each suit
     for (let j = 1; j <= 13; j++) {
-      switch (j) {
+      switch (true) {
         case (j === 1):
           displayVal = 'Ace';
           val = 11;
+          break;
         case (j > 1 && j <= 10):
           displayVal = j;
           val = j;
+          break;
         case (j === 11):
           displayVal = 'Jack';
           val = 10;
+          break;
         case (j === 12):
           displayVal = 'Queen';
           val = 10;
+          break;
         case (j === 13):
           displayVal = 'King';
           val = 10;
-          // default:
-          // displayVal = '';
-          // val = 0;
+          break;
+          //end of switch statement
       }
+      // console.log(j, val, displayVal, suits[i]);
+      // console.log(`index: ${j}, Value: ${val}, Display Value: ${displayVal}, Suit: ${suits[i]`);
+      // let newDeck = console.log(j, j.val, j.displayVal, suits[i]);
+      // return(newDeck);
 
-   console.log(j,  displayVal,  displayVal, suits[i]);
-      // return(j, displayVal, val, suits[i]);
+
 
       //push the card deck into the card array
       cards.push({
-        val,
-        displayVal,
+        index: j,
+        val: val,
+        displayVal: displayVal,
         suit: suits[i]
-      });
+      });      
 
-//  console.log(j, cards.displayVal, cards.displayVal, suits[i]);
+  
 
+      //end of four loop j to create 13 cards for each suit
     };
-    // return(cards)
-  };
 
+    //end of loop i to create four suits of cards
+  };
+  return(cards);
 };
 
-
+console.log(getDeck());
 
 //CHECKS
 const deck = getDeck();
@@ -73,4 +82,5 @@ console.log(`Random card has suit? ${cardHasSuit}`);
 const cardHasDisplayVal = randomCard &&
   randomCard.displayVal &&
   typeof randomCard.displayVal === 'string';
+  console.log(randomCard);
 console.log(`Random card has display value? ${cardHasDisplayVal}`);

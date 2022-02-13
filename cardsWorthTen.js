@@ -71,26 +71,25 @@ const cards = [{
  *
  * @param {array} cards
  * @return {string} displayVal
+ * 
+ * 
  */
 const cardsWorthTen = cards => {
 
   let filteredCards = cards.filter((card) => card.val === 10);
   let filteredVal = [];
+  let stringVal = [];
 
   for (let i = 0; i < filteredCards.length; i++) {
 
-    filteredVal = console.log(`${filteredCards[i].displayVal}`);
+  stringVal.push( `${filteredCards[i].displayVal}`);
 
   };
 
-  return (filteredVal)
+
+  return stringVal.join(", ")
 };
 
-
-
-cardsWorthTen(cards);
-
-// let myArray = (cardsWorthTen(cards).join(', '));
-// console.log(myArray);
+console.log(cardsWorthTen(cards));
 
 // should return/log "10, Jack, Queen, King"
