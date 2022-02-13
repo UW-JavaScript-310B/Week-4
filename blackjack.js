@@ -10,11 +10,31 @@ class CardPlayer {
     this.name = name;
     this.hand = [];
   }
+
+  drawCard() {
+    this.hand.push(blackjackDeck[Math.floor(Math.random() * 14)]);
+  }
+
+  /// for debugging purposes
+  toString() {
+    console.log(`${this.name}`);
+    for (let i = 0; i < this.hand.length; i++) {
+      console.log(this.hand[i]);
+    }
+  }
 }
 
 // CREATE TWO NEW CardPlayers
 const dealer = new CardPlayer("dealer");
 const player = new CardPlayer(prompt("Please enter your name:", "player 1"));
+player.drawCard();
+player.drawCard();
+dealer.drawCard();
+dealer.drawCard();
+
+//DEBUG Statement
+player.toString();
+dealer.toString();
 
 /**
  * Calculates the score of a Blackjack hand
