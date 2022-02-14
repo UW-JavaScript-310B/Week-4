@@ -21,7 +21,13 @@ const cards = [
  * @param {array} cards
  * @return {string} displayVal
  */
-const cardsWorthTen = cards => {};
-
+const cardsWorthTen = cards => {
+  let cardsWorthTenStr = '';
+  cards.forEach(element => {
+    if (element.val === 10)
+    cardsWorthTenStr += element.displayVal + ", " ;
+  });
+  return cardsWorthTenStr;
+};
 console.log(cardsWorthTen(cards));
 // should return/log "10, Jack, Queen, King"
