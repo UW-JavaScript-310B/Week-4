@@ -171,6 +171,7 @@ const startGame = function() {
   let dealerScore = calcPoints(dealer.hand).total;
   // If the dealer draws exactly 21 after drawing her first 2 cards, the dealer immediately wins
   if (dealerScore === 21) {
+    showHand(dealer);
     // Display in HTML page
     const text = `Dealer gets 21 after first 2 cards drawing. Dealer wins!`;
     displayHTML(text, 'summary');
@@ -206,8 +207,8 @@ const startGame = function() {
   }
   if (dealerScore > 21) {
     // Display this message below in HTML page
-    const text = `Dealer went over <span class='title'>21</span> - you win!`;
-    displayHTML(text,'approval summary');
+    const text = `Dealer went over <span class='warning'>21</span> - you win!`;
+    displayHTML(text,'summary');
     // Game over.
     return 'Dealer went over 21 - you win!';
   }
