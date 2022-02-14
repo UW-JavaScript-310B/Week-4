@@ -5,11 +5,20 @@ const blackjackDeck = getDeck();
  * @constructor
  * @param {string} name - The name of the player
  */
-class CardPlayer {}; //TODO
+class CardPlayer {
+  constructor(name){
+    this.name = name;
+    this.hand = [];
+  }
+  drawCard () {
+    const randomCard = deck[Math.floor(Math.random() * 52)];
+    this.hand.push(randomCard);
+    };
+}; //TODO
 
 // CREATE TWO NEW CardPlayers
-const dealer; // TODO
-const player; // TODO
+const dealer = new CardPlayer("dealer"); // TODO
+const player = new CardPlayer("player"); // TODO
 
 /**
  * Calculates the score of a Blackjack hand
@@ -20,7 +29,21 @@ const player; // TODO
  */
 const calcPoints = (hand) => {
   // CREATE FUNCTION HERE
-
+  let total = 0;
+  let isSoft = false;
+  hand.forEach(card => {
+    if (card.displayVal === 'Ace'){
+      if (total <= 10){
+        isSoft = true;
+        total += card.val;
+      } else {
+        total += 1;
+      }
+    } else {
+      total += card.val;
+    } 
+  });
+  return {total: total, isSoft: isSoft};
 }
 
 /**
@@ -31,7 +54,14 @@ const calcPoints = (hand) => {
  */
 const dealerShouldDraw = (dealerHand) => {
   // CREATE FUNCTION HERE
-
+  let points = calcPoints(dealerHand);
+  if (points.totalPts <= 16) {
+    return true;
+  } else if (points.totalPts == 17 && points.isSoft == true) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 /**
@@ -42,7 +72,8 @@ const dealerShouldDraw = (dealerHand) => {
  */
 const determineWinner = (playerScore, dealerScore) => {
   // CREATE FUNCTION HERE
-
+  let winner = (playerScore > dealerScore)  ? "player" : ((dealerScore > playerScore) ? "dealer" : "tie");
+  return `playerScore=${playerScore}, dealerScore=${dealerScore}, winner=${winner}`;
 }
 
 /**
@@ -60,7 +91,10 @@ const getMessage = (count, dealerCard) => {
  */
 const showHand = (player) => {
   const displayHand = player.hand.map((card) => card.displayVal);
-  console.log(`${player.name}'s hand is ${displayHand.join(', ')} (${calcPoints(player.hand).total})`);
+  let msg = `${player.name}'s hand is ${displayHand.join(', ')} (${calcPoints(player.hand).total})`;
+  console.log(msg);
+  if (msg.trim().length > 0 && document != null && document.body != null && document.body.innerHTML != null)
+    document.body.innerHTML += msg + "<br/>";
 }
 
 /**
@@ -73,6 +107,9 @@ const startGame = function() {
   dealer.drawCard();
 
   let playerScore = calcPoints(player.hand).total;
+  if (playerScore == 21) {
+    return "Player wins after drawing her first 2 cards";
+  }
   showHand(player);
   while (playerScore < 21 && confirm(getMessage(playerScore, dealer.hand[0]))) {
     player.drawCard();
@@ -85,6 +122,9 @@ const startGame = function() {
   console.log(`Player stands at ${playerScore}`);
 
   let dealerScore = calcPoints(dealer.hand).total;
+  if (dealerScore == 21) {
+    return "Dealer wins after drawing her first 2 cards";
+  }
   while (dealerScore < 21 && dealerShouldDraw(dealer.hand)) {
     dealer.drawCard();
     dealerScore = calcPoints(dealer.hand).total;
@@ -97,4 +137,5 @@ const startGame = function() {
 
   return determineWinner(playerScore, dealerScore);
 }
-// console.log(startGame());
+ console.log(startGame());
+ 
