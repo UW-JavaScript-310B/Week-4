@@ -21,7 +21,12 @@ const cards = [
  * @param {array} cards
  * @return {string} displayVal
  */
-const cardsWorthTen = cards => {};
+const cardsWorthTen = cards => {
+    let cardArray =[];
+    const placeholder = cards.filter(result => result.val === 10);
+    placeholder.forEach(entry => cardArray.push(entry.displayVal));
+    return cardArray;
+};
 
 console.log(cardsWorthTen(cards));
 // should return/log "10, Jack, Queen, King"
