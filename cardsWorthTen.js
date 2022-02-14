@@ -22,7 +22,12 @@ const cards = [
  * @return {string} displayVal
  */
 const cardsWorthTen = (cards) => {
-  return cards.filter((card) => card.val === 10);
+  let filteredCards = cards.filter((card) => card.val === 10);
+  let nameFilteredCards = [];
+
+  filteredCards.map((item) => nameFilteredCards.push(`${item.displayVal}`));
+
+  return nameFilteredCards.join();
 };
 
 console.log(cardsWorthTen(cards));
