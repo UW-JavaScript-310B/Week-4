@@ -33,10 +33,14 @@ const calcPoints = (hand) => {
 
     hand.forEach( card => { blackJackScore.total += card.val; });
 
-    if (blackJackScore.total > 21 && blackJackScore.isSoft === true) {
-        let cardPosition = hand.findIndex(card => card.val === 11 && card.displayVal === 'Ace');
-        hand[cardPosition].val = 1;
-        blackJackScore = calcPoints(hand);   // Make it recursive
+    if (blackJackScore.total > 21 && blackJackScore.isSoft) {
+        while (blackJackScore.total > 21 && blackJackScore.isSoft === true) {
+            let cardPosition = hand.findIndex(card => card.val === 11 && card.displayVal === 'Ace');
+            hand[cardPosition].val = 1;
+            
+            hasSoftAce = hand.some(card => card.displayVal === 'Ace' && card.val === 11);
+            blackJackScore = {total: 0, isSoft: hasSoftAce};
+        }
     }
 
     return blackJackScore;
