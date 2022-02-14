@@ -3,10 +3,50 @@
  * @returns {Array} deck - a deck of cards
  */
 const getDeck = () => {
-
+  // Define suits array with 4 items: hearts, spades, clubs, diamonds
+  const suits = ['hearts','diamonds','clubs','spades'];
+  // Define cards array
+  const cards = [];
+  // Set values (val, displayVal, suit) for each card in cards array
+  // Scan through suits array
+  for (let i = 0; i < suits.length; i++) {
+    // For loops from 1 to 13
+    for (let j = 1; j <=13; j++) {
+      // Define val & displayVal vars
+      let val;
+      let displayVal;
+      switch (j) {
+        case 1:
+          val = 11;
+          displayVal = 'Ace';
+          break;
+        case 11:
+          val = 10;
+          displayVal = 'Jack';
+          break;
+        case 12:
+          val = 10;
+          displayVal = 'Queen';
+          break;
+        case 13:
+          val = 10;
+          displayVal = 'King';
+          break;
+        default:
+          val = j;
+          displayVal = j.toString();
+          break;
+      }
+      // Set value for each card
+      cards.push({
+        val,
+        displayVal,
+        suit: suits[i]
+        });
+    }
+  }
+  return cards;
 }
-
-
 
 // CHECKS
 const deck = getDeck();
