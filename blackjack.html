@@ -2,8 +2,42 @@
 <html>
   <head>
     <title>Blackjack</title>
+    <!-- load all Font Awesome styles + include all v5 backwards compatibility by default -->
+    <link href="./CSS-Playing-Cards/cards.css" rel="stylesheet">
+    <link href="./blackjack_style.css" rel="stylesheet">
   </head>
   <body>
+    <article>
+      <header>
+        <img src="./logo.png" alt="Blackjack 310" width="400" />
+      </header>
+      <section id="gameContainer">
+        <section>
+          <header>
+            <h2>Player</h2>
+            <div class="col"><button id="hit">Hit</button><button id="stand">Stand</button></div>
+          </header>
+          <div id="playerContainer">
+            <span id="playerCards" class="playingCards"></span>
+          </div>
+        </section>
+        <section>
+          <header>
+            <h2>Dealer</h2>
+          </header>
+          <div id="dealerContainer">
+            <span id="dealerCards" class="playingCards"></span>
+          </div>
+        </section>
+      </section>
+      <section>
+        <h2>Gameplay</h2>
+        <ol id="gamePlay"></ol>
+      </section>
+      <footer>
+        <p>Copyright 2022. All rights reserved.</p>
+      </footer>
+    </article>
     <script src="createCardDeck.js"></script>
     <script src="blackjack.js"></script>
   </body>
