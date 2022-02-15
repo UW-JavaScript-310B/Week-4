@@ -13,7 +13,10 @@ class CardPlayer {
   }
   // Draws a card from the blackJackDeck and adds it to the player's hand.
   drawCard() {
-    this.hand.push(blackjackDeck.pop());
+    // this.hand.push(blackjackDeck.pop());
+    let cardIndex = Math.floor(Math.random() * blackjackDeck.length);
+    this.hand.push(blackjackDeck[cardIndex]);
+    blackjackDeck.splice(cardIndex, 1);
   }
 };
 
@@ -62,7 +65,7 @@ const calcPoints = (hand) => {
  * @returns {boolean} whether dealer should draw another card
  */
 const dealerShouldDraw = (dealerHand) => {
-  let dealerPoints = calculatePoints(dealerHand);
+  let dealerPoints = calcPoints(dealerHand);
   if (dealerPoints.total >= 16) {
     return true;
   } else if (dealerPoints.total == 17 && dealerPoints.isSoft) {
@@ -143,4 +146,4 @@ const startGame = function() {
 
   return determineWinner(playerScore, dealerScore);
 }
-// console.log(startGame());
+console.log(startGame());
