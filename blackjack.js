@@ -5,11 +5,23 @@ const blackjackDeck = getDeck();
  * @constructor
  * @param {string} name - The name of the player
  */
-class CardPlayer {}; //TODO
+class CardPlayer {
+  // Sets the player's name and initializes an empty hand.
+  constructor (name) {
+    this.name = name;
+    this.hand = [];
+  }
+  // Draws a card from the blackJackDeck and adds it to the player's hand.
+  drawCard() {
+    let cardIndex = Math.floor(Math.random() * blackjackDeck.length);
+    this.hand.push(blackjackDeck[cardIndex]);
+    blackjackDeck.splice(cardIndex, 1);
+  }
+};
 
 // CREATE TWO NEW CardPlayers
-const dealer; // TODO
-const player; // TODO
+const dealer = new CardPlayer("Dealer");
+const player = new CardPlayer("Joel");
 
 /**
  * Calculates the score of a Blackjack hand
@@ -19,8 +31,30 @@ const player; // TODO
  * @returns {boolean} blackJackScore.isSoft
  */
 const calcPoints = (hand) => {
-  // CREATE FUNCTION HERE
-
+  let total = 0;
+  let isSoft = false;
+  let aceFound = false;
+  hand.forEach(card => {
+    if (card.val == 11) {
+      if (aceFound) {
+        total += 1;
+      } else {
+        aceFound = true;
+        isSoft = true;
+        total += card.val;
+      }
+    } else {
+      total += card.val;
+    }
+  });
+  if (aceFound && total > 21) {
+    total -= 10;
+    isSoft = false;
+  };
+  return blackJackScore = {
+    total: total,
+    isSoft: isSoft
+  };
 }
 
 /**
@@ -30,8 +64,14 @@ const calcPoints = (hand) => {
  * @returns {boolean} whether dealer should draw another card
  */
 const dealerShouldDraw = (dealerHand) => {
-  // CREATE FUNCTION HERE
-
+  let dealerPoints = calcPoints(dealerHand);
+  if (dealerPoints.total >= 16) {
+    return true;
+  } else if (dealerPoints.total == 17 && dealerPoints.isSoft) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 /**
@@ -41,8 +81,16 @@ const dealerShouldDraw = (dealerHand) => {
  * @returns {string} Shows the player's score, the dealer's score, and who wins
  */
 const determineWinner = (playerScore, dealerScore) => {
-  // CREATE FUNCTION HERE
-
+  let winner = "Nobody";
+  if (dealerScore > playerScore) {
+    winner = dealer.name;
+  }
+  if (playerScore > dealerScore) {
+    winner = player.name;
+  }
+  return `${winner} wins!
+  ${player.name} | ${playerScore} points
+  ${dealer.name} | ${dealerScore} points`;
 }
 
 /**
@@ -97,4 +145,4 @@ const startGame = function() {
 
   return determineWinner(playerScore, dealerScore);
 }
-// console.log(startGame());
+console.log(startGame());
