@@ -13,7 +13,6 @@ class CardPlayer {
   }
   // Draws a card from the blackJackDeck and adds it to the player's hand.
   drawCard() {
-    // this.hand.push(blackjackDeck.pop());
     let cardIndex = Math.floor(Math.random() * blackjackDeck.length);
     this.hand.push(blackjackDeck[cardIndex]);
     blackjackDeck.splice(cardIndex, 1);

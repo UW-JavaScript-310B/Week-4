@@ -11,6 +11,7 @@
   }
 }
 
+// Builds a deck of 52 cards.
 const getDeck = () => {
   let deck = [];
   deck = buildSuit(deck, 'hearts');
@@ -20,6 +21,7 @@ const getDeck = () => {
   return deck;
 }
 
+// Adds a suit to the given deck.
 const buildSuit = (deck, suit) => {
   for (let cardNum = 1; cardNum <= 13; cardNum++) {
     let val;
