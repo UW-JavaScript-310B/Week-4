@@ -12,29 +12,25 @@ class CardPlayer {
   }
 
   drawCard() {
-    this.hand.push(blackjackDeck[Math.floor(Math.random() * 14)]);
+    //debugger;
+
+    const deck = getDeck();
+    const randomCard = deck[Math.floor(Math.random() * 52)];
+    this.hand.push(randomCard);
   }
 
   /// for debugging purposes
-  toString() {
-    console.log(`${this.name}`);
-    for (let i = 0; i < this.hand.length; i++) {
-      console.log(this.hand[i]);
-    }
-  }
+  //toString() {
+  //  console.log(`${this.name}`);
+  //  for (let i = 0; i < this.hand.length; i++) {
+  //    console.log(this.hand[i].val);
+  //  }
+  //}
 }
 
 // CREATE TWO NEW CardPlayers
 const dealer = new CardPlayer("dealer");
 const player = new CardPlayer(prompt("Please enter your name:", "player 1"));
-player.drawCard();
-player.drawCard();
-dealer.drawCard();
-dealer.drawCard();
-
-//DEBUG Statement
-player.toString();
-dealer.toString();
 
 /**
  * Calculates the score of a Blackjack hand
@@ -44,7 +40,21 @@ dealer.toString();
  * @returns {boolean} blackJackScore.isSoft
  */
 const calcPoints = (hand) => {
-  // CREATE FUNCTION HERE
+  const blackJackScore = { total: 0, isSoft: false };
+  //Check if it is soft
+  for (card of hand) {
+    blackJackScore.total += card.val;
+  }
+
+  for (card of hand) {
+    blackJackScore.total += card.val;
+  }
+
+  debugger;
+  console.log(
+    `${hand} | total = ${blackJackScore.total}, isSoft = ${blackJackScore.isSoft}`
+  );
+  return { blackJackScore };
 };
 
 /**
@@ -88,6 +98,18 @@ const showHand = (player) => {
     })`
   );
 };
+
+//DEBUG Statements
+player.drawCard();
+player.drawCard();
+dealer.drawCard();
+dealer.drawCard();
+
+player.toString();
+calcPoints(player.hand);
+
+dealer.toString();
+calcPoints(dealer.hand);
 
 /**
  * Runs Blackjack Game
