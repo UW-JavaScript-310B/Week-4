@@ -25,28 +25,29 @@ const buildSuit = (deck, suit) => {
     let val;
     let displayVal;
     switch(cardNum) {
-      case cardNum < 10:
-        val = cardNum;
-        displayVal = cardNum;
-        break;
-      case cardNum == 10:
+      case 10:
         val = 10;
         displayVal = "Jack";
         break;
-      case cardNum == 11:
+      case 11:
         val = 10;
         displayVal = "Queen";
         break;
-      case cardNum == 12:
+      case 12:
         val = 10;
         displayVal = "King";
         break;
-      default:
+      case 13:
         val = 11;
         displayVal = "Ace";
-      let newCard = new Card(val, displayVal, suit);
-      deck.push(newCard);
-    }   
+        break;
+      default:
+        val = cardNum;
+        displayVal = cardNum;
+    }
+    let newCard = new Card(val, displayVal, suit);
+    console.log(newCard);
+    deck.push(newCard);
   }
   return deck;
 }

@@ -6,8 +6,14 @@ const blackjackDeck = getDeck();
  * @param {string} name - The name of the player
  */
 class CardPlayer {
+  // Sets the player's name and initializes an empty hand.
   constructor (name) {
     this.name = name;
+    this.hand = [];
+  }
+  // Draws a card from the blackJackDeck and adds it to the player's hand.
+  drawCard() {
+    this.hand.push(blackjackDeck.pop());
   }
 };
 
@@ -23,8 +29,30 @@ const player = new CardPlayer("Joel");
  * @returns {boolean} blackJackScore.isSoft
  */
 const calcPoints = (hand) => {
-  // CREATE FUNCTION HERE
-
+  let total = 0;
+  let isSoft = false;
+  let aceFound = false;
+  hand.forEach(card => {
+    if (card.val == 11) {
+      if (aceFound) {
+        total += 1;
+      } else {
+        aceFound = true;
+        isSoft = true;
+        total += card.val;
+      }
+    } else {
+      total += card.val;
+    }
+  });
+  if (aceFound && total > 21) {
+    total -= 10;
+    isSoft = false;
+  };
+  return blackJackScore = {
+    total: total,
+    isSoft: isSoft
+  };
 }
 
 /**
@@ -34,8 +62,14 @@ const calcPoints = (hand) => {
  * @returns {boolean} whether dealer should draw another card
  */
 const dealerShouldDraw = (dealerHand) => {
-  // CREATE FUNCTION HERE
-
+  let dealerPoints = calculatePoints(dealerHand);
+  if (dealerPoints.total >= 16) {
+    return true;
+  } else if (dealerPoints.total == 17 && dealerPoints.isSoft) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 /**
@@ -45,8 +79,16 @@ const dealerShouldDraw = (dealerHand) => {
  * @returns {string} Shows the player's score, the dealer's score, and who wins
  */
 const determineWinner = (playerScore, dealerScore) => {
-  // CREATE FUNCTION HERE
-
+  let winner = "Nobody";
+  if (dealerScore > playerScore) {
+    winner = dealer.name;
+  }
+  if (playerScore > dealerScore) {
+    winner = player.name;
+  }
+  return `${winner} wins!
+  ${player.name} | ${playerScore} points
+  ${dealer.name} | ${dealerScore} points`;
 }
 
 /**
