@@ -16,8 +16,6 @@ body {
 }
 
 article {
-  /*background: rgb(255,255,255);
-  background: linear-gradient(0deg, rgba(255,255,255,1) 50%, rgba(190,190,190,1) 100%);*/
   background-repeat: no-repeat;
   display: flex;
   flex-wrap: wrap;
@@ -35,15 +33,18 @@ header img {
 
 #gameContainer {
   display: flex;
-  flex-direction: column;
+  flex-basis: 100%;
+}
+
+#gameContainer div {
+  flex-basis: 50%;
 }
 header h2 {
   margin-right: 40px;
 }
 
-section {
+section, div {
   padding: 0;
-  flex: 33%;
   margin: 0 20px;
 }
 
@@ -66,6 +67,10 @@ h1 {
 h2 {
   padding: 7px 0;
   font-size: 24px;
+}
+
+#col {
+  display: flex;
 }
 
 #playerContainer, #dealerContainer {
@@ -103,8 +108,15 @@ button {
   line-height: 1.4;
   text-decoration: none;
   margin-right: 20px;
-  width: 100px;
-  transition: width 2s, height 2s;
+  flex: 2 1 auto;
+}
+
+button#hit:hover {
+  background: #888;
+}
+
+button#stand:hover {
+  background: #999;
 }
 
 #hit {
@@ -114,4 +126,11 @@ button {
 
 #stand {
   background: #fff;
+  align-items: flex-end;
+}
+
+footer {
+  display: flex;
+  flex-basis: 100%;
+  justify-content: center;
 }

@@ -70,24 +70,7 @@ const dealerPlays = (dealer) => {
     dealerScore = calcPoints(dealer.hand).total;
     showHand(dealer);
   }
-  // if (calcPoints(dealer.hand).total > 21) {
-  //   outputGamePlay(`Dealer went over 21 - you win!`);
-  // }
-  // else {
-  //   outputGamePlay(`Dealer stands at ${calcPoints(dealer.hand).total}`);
-  // }
-
   endGame();
-}
-
-/**
- * Creates user prompt to ask if they'd like to draw a card
- * @param {number} count 
- * @param {string} dealerCard 
- */
-const getMessage = (count, dealerCard) => {
-  outputGamePlay(`Dealer showing ${dealerCard.displayVal}, your count is ${count}.  Draw card?`);
-  return `Dealer showing ${dealerCard.displayVal}, your count is ${count}.  Draw card?`;
 }
 
 /**
@@ -185,18 +168,18 @@ const startGame = () => {
     
     let stand = () => { 
       dealer.playerStanding = true;
-      outputGamePlay(`Player stands at ${playerScore}`);
+      outputGamePlay(`Player stands at ${calcPoints(player.hand).total}`);
       showHand(dealer);
       dealerPlays(dealer);
 
-      outputGamePlay(`Dealer stands at ${calcPoints(dealer.hand).total}`);
+      if(calcPoints(dealer.hand).total > 21) {
+        outputGamePlay(`Dealer busts`);
+      }
+      else {
+        outputGamePlay(`Dealer stands at ${calcPoints(dealer.hand).total}`);
+      }
 
-     // if (calcPoints(dealer.hand).total > 21) {
-        outputGamePlay(determineWinner(player, dealer));
-     // }
-     //else {
-      //  outputGamePlay(`Dealer stands at ${calcPoints(dealer.hand).total}`);
-     // }
+      outputGamePlay(determineWinner(player, dealer));
     };
   
     document.getElementById('stand').addEventListener("click", stand)  
