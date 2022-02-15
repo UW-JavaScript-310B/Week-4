@@ -29,37 +29,50 @@ const player = new CardPlayer('Player'); // TODO
  * @returns {number} blackJackScore.total
  * @returns {boolean} blackJackScore.isSoft
  */
+ 
 const calcPoints = (hand) => {
+  // Define total var with starting value = 0
+  let total = 0;
+  // Define isSoft var with default value is false
+  let isSoft = false;
   // Check if the array of cards has an "Ace"
   const findAce = hand.find((card) => card.displayVal === 'Ace');
-  // Define isSoft - "true" if there is an Ace in the hand
-  const isSoft = (findAce !== undefined);
-  // Calculate the total points of these cards
-  let total = 0;
-
   // If there is an Ace in hand
-  if (isSoft) {
+  if (findAce !== undefined) {
     // Filter the other cards that are not "Ace"
     const otherCards = hand.filter((card) => card.displayVal !=='Ace');
-    // Looping through this cards array
-    otherCards.forEach(other => {
-      // Calculate the total of other cards
-      total += other.val;
-    });
+    // If the array is not empty
+    if (otherCards.length > 0) {
+      // Looping through this cards array
+      otherCards.forEach(other => {
+        // Calculate the total points of other cards
+        total += other.val;
+      });
+    }
+
     // Filter Ace cards
     const aceCards = hand.filter((ace) => ace.displayVal === 'Ace');
     // Looping through Ace cards
-    aceCards.forEach(aceVal => {
-      // Check if the total > 21 or not
-      let aceValue = (total + aceVal.val) > 21 ? 1:11
-      total += aceValue;
-    });
+    for (let i = 0; i < aceCards.length; i++) {
+      // If there is more than 1 Ace card or the current total points (including the current Ace card value) > 21
+      if (aceCards[i].val === 11 && (aceCards[i+1] !== undefined || (total + aceCards[i].val) > 21)) {
+        // Set the value of this Ace card = 1
+        aceCards[i].val = 1;
+      }
+      // Calculate total points
+      total += aceCards[i].val;
+    }
+
+    // Find Ace cards that have value equal 11 
+    const findAce11 = aceCards.find((card) => card.val === 11);
+    // Set isSoft = true if there is an Ace in the Ace cards array that is being counted as 11 points
+    isSoft = (findAce11 !== undefined);
 
   } else {
     // Looping through the hand array
-    hand.forEach((eachCard) => {
+    hand.forEach(card => {
       // Calculate the total of all cards in the hand
-      total += eachCard.val;
+      total += card.val;
     });
   }
   // Return object blackJackScore
@@ -73,7 +86,6 @@ const calcPoints = (hand) => {
  * @returns {boolean} whether dealer should draw another card
  */
 const dealerShouldDraw = (dealerHand) => {
-  // CREATE FUNCTION HERE
   // Get score of dealer hand
   const dealerScore = calcPoints(dealerHand);
   // Check if dealerScore <= 16 or "dealerScore equal 17 and there is an Ace in dealerHand"
@@ -112,7 +124,7 @@ const displayHTML = (text, className = '') => {
  */
 const determineWinner = (playerScore, dealerScore) => {
   // Define winner var
-  let winner;
+  let winner = '';
   // Check if who wins
   if (playerScore > dealerScore) {
     winner = `You win!`;
