@@ -60,7 +60,7 @@ const cards = [
  */
 const logCardDeck = deck => {
   // Get all values of the deck
-  const deckValues = Array.from(Object.values(deck));
+  const deckValues = Object.values(deck);
   // Looping through deck values
   deckValues.forEach(value => console.log(value));
 

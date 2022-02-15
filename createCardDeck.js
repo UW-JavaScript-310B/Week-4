@@ -3,7 +3,7 @@
  * @returns {Array} deck - a deck of cards
  */
 const getDeck = () => {
-  // Define suits array with 4 items: hearts, spades, clubs, diamonds
+  // Define suits array with 4 items: hearts, diamonds, clubs, spades
   const suits = ['hearts','diamonds','clubs','spades'];
   // Define cards array
   const cards = [];

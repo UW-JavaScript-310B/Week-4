@@ -41,7 +41,7 @@ const calcPoints = (hand) => {
   if (isSoft) {
     // Filter the other cards that are not "Ace"
     const otherCards = hand.filter((card) => card.displayVal !=='Ace');
-    // Looping through cards array
+    // Looping through this cards array
     otherCards.forEach(other => {
       // Calculate the total of other cards
       total += other.val;
@@ -90,12 +90,16 @@ const dealerShouldDraw = (dealerHand) => {
  * @param {string} className (optional)
  */
 const displayHTML = (text, className = '') => {
+  // Create a new <p> element
   const resultElement = document.createElement('p');
   resultElement.innerHTML = text;
+  // Set CSS class for this element if className is given
   if (className !== '') {
     resultElement.className = className;
   }
+  // Get element "showHand"
   const showHandElement = document.getElementById('showHand');
+  // Add child element
   showHandElement.appendChild(resultElement);
 };
 
