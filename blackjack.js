@@ -45,32 +45,33 @@ const naturalBlackjack = (player) => {
 const calcPoints = (hand) => {
   let currentScore = hand.reduce(((previousCard, nextCard) => previousCard + nextCard.val), 0);
 
-  if(currentScore > 21 && hand.some(card => card.val == 11)) {
+  let blackJackScore = {
+    total: currentScore,
+    isSoft: false
+  }
+
+  if(currentScore < 21 && hand.some(card => card.val == 11)) {
+    blackJackScore.isSoft = true;
+  }
+  else if(currentScore > 21 && hand.some(card => card.val == 11)) {
     hand.find(card => card.val == 11).val = 1;
-    currentScore = hand.reduce(((previousCard, nextCard) => previousCard + nextCard.val), 0);
+    blackJackScore.total = hand.reduce(((previousCard, nextCard) => previousCard + nextCard.val), 0);
   }
   else if(currentScore > 21) {
     endGame();
   }
 
-  let blackJackScore = {
-    total: currentScore,
-    isSoft: currentScore < 15 ? true : false
-  }
   return blackJackScore;
 }
 
 /**
- * Manage dealer game play
- * @returns {string} Confirms deals busts or stands
+ * Determines whether the dealer should draw another card.
+ * 
+ * @param {Array} dealerHand Array of card objects with val, displayVal, suit properties
+ * @returns {boolean} whether dealer should draw another card
  */
-const dealerPlays = (dealer) => {
-  while (calcPoints(dealer.hand).isSoft) {
-    dealer.drawCard();
-    dealerScore = calcPoints(dealer.hand).total;
-    showHand(dealer);
-  }
-  endGame();
+const dealerShouldDraw = (dealer) => {
+  return ((calcPoints(dealer.hand).total <= 16) || (calcPoints(dealer.hand).isSoft && calcPoints(dealer.hand).total === 17));
 }
 
 /**
@@ -116,8 +117,12 @@ const outputGamePlay = (message) => {
 const determineWinner = (player, dealer) => {
   if(calcPoints(player.hand).total > 21) return 'Dealer wins';
   else if(calcPoints(dealer.hand).total > 21) return 'Player wins';
-  else if(calcPoints(player.hand).total === calcPoints(dealer.hand).total) return 'No winner. Push.';
-  
+  else if(calcPoints(player.hand).total === calcPoints(dealer.hand).total) {
+    if((dealer.hand[0].val == 10 && dealer.hand[1].displayVal == 'A') || (dealer.hand[0].displayVal == 'A' && dealer.hand[1].val == 10)) {
+      return 'Dealer wins.';
+    }
+    return 'No winner. Push.';
+  }
   return(calcPoints(player.hand).total >= calcPoints(dealer.hand).total) ? 'Player wins' : 'Dealer wins';
 }
 
@@ -147,7 +152,6 @@ const startGame = () => {
   showHand(dealer);
 
   if(naturalBlackjack(player)) {
-    console.log('natuarl bj');
     outputGamePlay(determineWinner(player, dealer));
     endGame();
   }
@@ -155,7 +159,11 @@ const startGame = () => {
     let hit = () => {
       player.drawCard();
       showHand(player);
-      if(calcPoints(player.hand).total > 21) {
+      if (calcPoints(player.hand).total === 21) {
+        stand();
+      }
+      else if(calcPoints(player.hand).total > 21) {
+        outputGamePlay(`Player busts`);
         outputGamePlay(determineWinner(player, dealer));
         endGame();
       }
@@ -170,7 +178,12 @@ const startGame = () => {
       dealer.playerStanding = true;
       outputGamePlay(`Player stands at ${calcPoints(player.hand).total}`);
       showHand(dealer);
-      dealerPlays(dealer);
+
+      while(dealerShouldDraw(dealer)) {
+        dealer.drawCard();
+        dealerScore = calcPoints(dealer.hand).total;
+        showHand(dealer);
+      }
 
       if(calcPoints(dealer.hand).total > 21) {
         outputGamePlay(`Dealer busts`);
@@ -180,12 +193,13 @@ const startGame = () => {
       }
 
       outputGamePlay(determineWinner(player, dealer));
+      endGame();
     };
   
     document.getElementById('stand').addEventListener("click", stand)  
   }
 
-  let playerScore = calcPoints(player.hand).total;
+
 }
 
 startGame();

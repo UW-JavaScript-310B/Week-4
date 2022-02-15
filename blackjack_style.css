@@ -28,7 +28,7 @@ header {
 
 header img {
   margin:0 auto;
-  padding:50px 0;
+  padding:30px 0 40px 0;
 }
 
 #gameContainer {
@@ -133,4 +133,5 @@ footer {
   display: flex;
   flex-basis: 100%;
   justify-content: center;
+  padding: 30px 0;
 }
