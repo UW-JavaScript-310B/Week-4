@@ -5,11 +5,22 @@ const blackjackDeck = getDeck();
  * @constructor
  * @param {string} name - The name of the player
  */
-class CardPlayer {}; //TODO
+class CardPlayer {
+  constructor(name){
+    this.name = name;
+    this.hand = [];
+  }
+
+  drawCard(){
+    let random = Math.ceil(Math.random()*52);
+    this.hand.push(blackjackDeck[random]);
+  }
+
+}; //TODO
 
 // CREATE TWO NEW CardPlayers
-const dealer; // TODO
-const player; // TODO
+const dealer = new CardPlayer('Dealer'); // TODO
+const player = new CardPlayer('Player'); // TODO
 
 /**
  * Calculates the score of a Blackjack hand
@@ -20,7 +31,24 @@ const player; // TODO
  */
 const calcPoints = (hand) => {
   // CREATE FUNCTION HERE
+  let total = 0;
+  let isSoft = false;
 
+  for(let i = 0; i<hand.length;i++){
+    if(hand[i].displayVal === 'Ace'){
+        if(total <= 10){
+          total +=hand[i].val;
+          isSoft = true;
+        }
+        else{
+          total +=1;
+        }
+    }
+    else{
+      total += hand[i].val;
+    }
+  }
+  return {total: total, isSoft: isSoft};
 }
 
 /**
@@ -31,7 +59,17 @@ const calcPoints = (hand) => {
  */
 const dealerShouldDraw = (dealerHand) => {
   // CREATE FUNCTION HERE
+let points = calcPoints(dealerHand);
 
+if(points.total <= 16){
+  return true;
+}
+else if(points.total === 17 && points.isSoft === true){
+  return true;
+}
+else if (points.total >= 17){
+  return false;
+}
 }
 
 /**
@@ -42,7 +80,11 @@ const dealerShouldDraw = (dealerHand) => {
  */
 const determineWinner = (playerScore, dealerScore) => {
   // CREATE FUNCTION HERE
-
+  let winner = (playerScore > dealerScore)  ? "player" : ((dealerScore > playerScore) ? "dealer" : "tie");
+  let text = document.createElement("h3");
+  text.innerText = `playerScore=${playerScore}, dealerScore=${dealerScore}, winner=${winner}`;
+  document.getElementById("innerDiv").append(text);
+  return `playerScore=${playerScore}, dealerScore=${dealerScore}, winner=${winner}`;
 }
 
 /**
@@ -60,6 +102,10 @@ const getMessage = (count, dealerCard) => {
  */
 const showHand = (player) => {
   const displayHand = player.hand.map((card) => card.displayVal);
+  let para = document.createElement("p");
+  para.innerText = `${player.name}'s hand is ${displayHand.join(', ')} (${calcPoints(player.hand).total})`
+  document.getElementById("innerDiv").append(para);
+
   console.log(`${player.name}'s hand is ${displayHand.join(', ')} (${calcPoints(player.hand).total})`);
 }
 
@@ -67,6 +113,9 @@ const showHand = (player) => {
  * Runs Blackjack Game
  */
 const startGame = function() {
+  let h3 = document.createElement("h3");
+  h3.innerText = "The game has started!!!"
+  document.getElementById("innerDiv").append(h3);
   player.drawCard();
   dealer.drawCard();
   player.drawCard();
@@ -80,8 +129,21 @@ const startGame = function() {
     showHand(player);
   }
   if (playerScore > 21) {
+      let h3 = document.createElement("h3");
+        h3.innerText = "You went over 21 - you lose!"
+        document.getElementById("innerDiv").append(h3);
+        h3.style.color = 'red';
     return 'You went over 21 - you lose!';
   }
+  else if (playerScore === 21){
+    let text = document.createElement("h3");
+    text.innerText = 'you win!';
+    document.getElementById("innerDiv").append(text);
+    return 'You win!';
+  }
+  let text = document.createElement("h3");
+  text.innerText = `Player stands at ${playerScore}`;
+  document.getElementById("innerDiv").append(text);
   console.log(`Player stands at ${playerScore}`);
 
   let dealerScore = calcPoints(dealer.hand).total;
@@ -91,8 +153,23 @@ const startGame = function() {
     showHand(dealer);
   }
   if (dealerScore > 21) {
+
+    let text = document.createElement("h3");
+    text.innerText = 'Dealer went over 21 - you win!';
+    document.getElementById("innerDiv").append(text);
+    text.style.color = 'red';
     return 'Dealer went over 21 - you win!';
   }
+  else if(dealerScore === 21){
+    let text = document.createElement("h3");
+    text.innerText = 'you win!';
+    document.getElementById("innerDiv").append(innerText);
+    return 'Dealer win!';
+  }
+  let text1 = document.createElement("h3");
+  text1.innerText = `Dealer stands at ${dealerScore}`;
+  document.getElementById("innerDiv").append(text1);
+  
   console.log(`Dealer stands at ${dealerScore}`);
 
   return determineWinner(playerScore, dealerScore);
