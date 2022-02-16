@@ -3,6 +3,56 @@
  * @returns {Array} deck - a deck of cards
  */
 const getDeck = () => {
+  let card = {
+    val: null,
+    displayVal: '',
+    suit: ''
+  }
+  let suits = ['hearts', 'spades', 'clubs', 'diamonds'];
+  let result = [];
+
+  suits.forEach((suit)=>{
+  
+    for (let j = 1; j <= 13; j++) {
+     switch (j) {    
+      case 1:case 2:case 3:case 4:case 5:case 6:case 7:case 8:case 9:
+        card.val = j+1;
+        card.displayVal = (j+1).toString();
+        card.suit = suit;
+   
+      break;
+        case 10:
+        card.val = 10,
+        card.displayVal = 'Jack',   
+        card.suit = suit;
+        break;
+        
+        case 11:
+          card.val = 10,
+          card.displayVal = 'Queen',
+          card.suit = suit;
+          break;
+        
+        case 12:
+          card.val = 10,
+          card.displayVal = 'King',
+          card.suit = suit;
+          
+          break;
+        case 13:
+          card.val = 11,
+          card.displayVal = 'Ace',
+          card.suit = suit;
+          
+         break;
+        
+     }
+  
+     result.push({val: card.val, displayVal: card.displayVal, suit: card.suit});
+     
+    } 
+  });
+  return result;
 
 }
 
