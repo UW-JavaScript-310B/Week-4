@@ -58,22 +58,30 @@ const cards = [
  *
  * @param {array} deck A deck of cards
  */
-const logCardDeck = deck => {
+ 
+ //Using for...in loop
+const logCardDeckVersionOne = deck => {
   cards.forEach((card) => {
     for (let key in card) {
       console.log(`${key}: ${card[key]}`);
     }
   })
 };
-logCardDeck();
+logCardDeckVersionOne(cards);
+
+// Using Object.entries & .forEach()
+const logCardDeckVersionTwo = deck => {
+  cards.forEach((card) => {
+    Object.entries(card).forEach(([key, value]) => console.log(`${key}: ${value}`));
+  })
+}
+logCardDeckVersionTwo(cards);
 
 /**
  * For confirmation all 156 properties (52 cards * 3 key-value pairs)
- * are being logged; uncomment code below, and comment-out code above. 
+ * are being logged, run one of these: 
  */ 
-
-/*
-const logCardDeck = deck => {
+const logCardDeckVersionOneCounter = deck => {
   let counter = 0;
   cards.forEach((card) => {
     for (let key in card) {
@@ -82,5 +90,14 @@ const logCardDeck = deck => {
     }
   })
 };
-logCardDeck();
-*/
+logCardDeckVersionOneCounter(cards);
+
+//This version counts by card, not by property. 
+  const logCardDeckVersionTwoCounter = deck => {
+    let counter = 0;
+    cards.forEach((card) => {
+      counter += 1;
+      Object.entries(card).forEach(([key, value]) => console.log(`${counter}) ${key}: ${value}`));
+    })
+  }
+  logCardDeckVersionTwoCounter(cards);
