@@ -16,21 +16,47 @@ class CardPlayer {
 
     const deck = getDeck();
     const randomCard = deck[Math.floor(Math.random() * 52)];
+    //const randomCard = deck[0]; //pull Aces
     this.hand.push(randomCard);
   }
-
-  /// for debugging purposes
-  //toString() {
-  //  console.log(`${this.name}`);
-  //  for (let i = 0; i < this.hand.length; i++) {
-  //    console.log(this.hand[i].val);
-  //  }
-  //}
 }
 
 // CREATE TWO NEW CardPlayers
 const dealer = new CardPlayer("dealer");
 const player = new CardPlayer(prompt("Please enter your name:", "player 1"));
+
+/**
+ * Calculates value of hand
+ * @param {Array} hand - Array of card objects with val, displayVal, suit properties
+ * @param {Object} blackJackScore
+ */
+function countHand(blackJackScore, hand) {
+  for (card of hand) {
+    blackJackScore.total += card.val;
+  }
+}
+
+/**
+ * Checks if hand is soft
+ * @param {Array} hand - Array of card objects with val, displayVal, suit properties
+ * @param {Object} blackJackScore
+ */
+function checkSoft(blackJackScore, hand) {
+  //Check if it is soft
+  let filteredAces = hand.filter(
+    (card) =>
+      (card.displayVal.toString().toLowerCase() === "ace") & (card.val === 11)
+  );
+  //debugger;
+  if (filteredAces.length === 1) {
+    blackJackScore.isSoft = true;
+  } else if (filteredAces.length >= 2) {
+    for (let index = 1; index < filteredAces.length; index++) {
+      filteredAces[index].val = 1;
+    }
+    blackJackScore.isSoft = true;
+  }
+}
 
 /**
  * Calculates the score of a Blackjack hand
@@ -41,18 +67,13 @@ const player = new CardPlayer(prompt("Please enter your name:", "player 1"));
  */
 const calcPoints = (hand) => {
   const blackJackScore = { total: 0, isSoft: false };
-  //Check if it is soft
-  for (card of hand) {
-    blackJackScore.total += card.val;
-  }
-
-  for (card of hand) {
-    blackJackScore.total += card.val;
-  }
-
-  debugger;
+  checkSoft(blackJackScore, hand);
+  countHand(blackJackScore, hand);
+  hand.forEach((card) => {
+    console.log(card.displayVal);
+  });
   console.log(
-    `${hand} | total = ${blackJackScore.total}, isSoft = ${blackJackScore.isSoft}`
+    `total = ${blackJackScore.total}, isSoft = ${blackJackScore.isSoft}`
   );
   return { blackJackScore };
 };
