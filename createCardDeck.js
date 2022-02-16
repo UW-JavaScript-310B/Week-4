@@ -2,11 +2,47 @@
  * Returns an array of 52 Cards
  * @returns {Array} deck - a deck of cards
  */
-const getDeck = () => {
+/**
+ * Returns an array of 52 Cards
+ * @returns {Array} deck - a deck of cards
+ */
 
+ const getDeck = () => {
+  let cardDeck = [];
+  const suits = ['hearts', 'spades', 'clubs', 'diamonds'];
+  const dingbat = ['hearts', 'spades', 'clubs', 'diams'];
+  const faceCards = ['J', 'Q', 'K', 'A'];
+  for(let i = 0; i < 4; i++) {
+    for(let j = 2; j < 11; j++) {
+      cardDeck.push({
+        val: j,
+        displayVal: j.toString(),
+        suit: suits[i],
+        dingbat: dingbat[i],
+        dealt: false
+      })
+    }
+    for(let j = 0; j < 3; j++) {
+      cardDeck.push({
+        val: 10,
+        displayVal: faceCards[j],
+        suit: suits[i],
+        dingbat: dingbat[i],
+        dealt: false
+      })
+    }
+    cardDeck.push({
+        val: 11,
+        displayVal: faceCards[3],
+        suit: suits[i],
+        dingbat: dingbat[i],
+        dealt: false
+      })
+  }
+  return cardDeck;
 }
 
-
+getDeck();
 
 // CHECKS
 const deck = getDeck();
