@@ -60,7 +60,7 @@ const cards = [
  */
 const logCardDeck = deck => {
   for (const card of cards) {
-    console.log(`${card.displayVal} of ${card.suit}`);
+    console.log(`The ${card.displayVal} of ${card.suit} has a gameplay value of ${card.val}`);
   }
 };
 
