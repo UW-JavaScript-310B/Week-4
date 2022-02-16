@@ -40,7 +40,7 @@ function countHand(hand, blackJackScore) {
 
 /**
  * Checks if hand is soft
- * @param {Array} hand - Array of card objects with val, displayVal, suit properties
+ * @param {Array} hand - Array of 90card objects with val, displayVal, suit properties
  * @param {Object} blackJackScore
  */
 function checkSoft(hand, blackJackScore) {
@@ -69,7 +69,10 @@ function checkSoft(hand, blackJackScore) {
  * @returns {boolean} blackJackScore.isSoft
  */
 const calcPoints = (hand) => {
+  //cant use blackJackScore variable
   const blackJackScore = { total: 0, isSoft: false };
+  let total = 0;
+  let isSoft = false;
   checkSoft(hand, blackJackScore);
   countHand(hand, blackJackScore);
   hand.forEach((card) => {
@@ -78,7 +81,10 @@ const calcPoints = (hand) => {
   console.log(
     `total = ${blackJackScore.total}, isSoft = ${blackJackScore.isSoft}`
   );
-  return { blackJackScore };
+  //This seems wrong but it is working correctly. TODO refactor this
+  total = blackJackScore.total;
+  isSoft = blackJackScore.isSoft;
+  return { total, isSoft };
 };
 
 /**
@@ -108,7 +114,13 @@ const dealerShouldDraw = (dealerHand) => {
  * @returns {string} Shows the player's score, the dealer's score, and who wins
  */
 const determineWinner = (playerScore, dealerScore) => {
-  // CREATE FUNCTION HERE
+  if ((playerScore = dealerScore)) {
+    return `Player and dealer both have ${playerScore}. This is a tie.`;
+  } else if (playerScore > dealerScore) {
+    return `Player has ${playerScore} and dealer has ${dealerScore}. Player wins.`;
+  } else {
+    return `Player has ${playerScore} and dealer has ${dealerScore}. Dealer wins.`;
+  }
 };
 
 /**
@@ -132,18 +144,6 @@ const showHand = (player) => {
     })`
   );
 };
-
-//DEBUG Statements
-player.drawCard();
-player.drawCard();
-dealer.drawCard();
-dealer.drawCard();
-
-player.toString();
-calcPoints(player.hand);
-
-dealer.toString();
-calcPoints(dealer.hand);
 
 /**
  * Runs Blackjack Game
@@ -179,4 +179,4 @@ const startGame = function () {
 
   return determineWinner(playerScore, dealerScore);
 };
-// console.log(startGame());
+console.log(startGame());
