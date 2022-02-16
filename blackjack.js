@@ -30,10 +30,12 @@ const player = new CardPlayer(prompt("Please enter your name:", "player 1"));
  * @param {Array} hand - Array of card objects with val, displayVal, suit properties
  * @param {Object} blackJackScore
  */
-function countHand(blackJackScore, hand) {
+function countHand(hand, blackJackScore) {
   for (card of hand) {
     blackJackScore.total += card.val;
   }
+
+  return blackJackScore.total;
 }
 
 /**
@@ -41,7 +43,7 @@ function countHand(blackJackScore, hand) {
  * @param {Array} hand - Array of card objects with val, displayVal, suit properties
  * @param {Object} blackJackScore
  */
-function checkSoft(blackJackScore, hand) {
+function checkSoft(hand, blackJackScore) {
   //Check if it is soft
   let filteredAces = hand.filter(
     (card) =>
@@ -56,6 +58,7 @@ function checkSoft(blackJackScore, hand) {
     }
     blackJackScore.isSoft = true;
   }
+  return blackJackScore.isSoft;
 }
 
 /**
@@ -67,8 +70,8 @@ function checkSoft(blackJackScore, hand) {
  */
 const calcPoints = (hand) => {
   const blackJackScore = { total: 0, isSoft: false };
-  checkSoft(blackJackScore, hand);
-  countHand(blackJackScore, hand);
+  checkSoft(hand, blackJackScore);
+  countHand(hand, blackJackScore);
   hand.forEach((card) => {
     console.log(card.displayVal);
   });
@@ -86,6 +89,16 @@ const calcPoints = (hand) => {
  */
 const dealerShouldDraw = (dealerHand) => {
   // CREATE FUNCTION HERE
+  // If the dealer's hand is 16 points or less, the dealer must draw another card
+  // If the dealer's hand is exactly 17 points, and the dealer has an Ace valued at 11, the dealer must draw another card
+  // Otherwise if the dealer's hand is 17 points or more, the dealer will end her turn
+  if (countHand(dealerHand) < 16) {
+    return true;
+  } else if (countHand(dealerHand) === 17 && dealerHand.isSoft) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 /**
