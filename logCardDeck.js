@@ -1,4 +1,4 @@
-const cards = [
+  const cards = [
   { val: 2, displayVal: '2', suit: 'hearts' },
   { val: 3, displayVal: '3', suit: 'hearts' },
   { val: 4, displayVal: '4', suit: 'hearts' },
@@ -58,4 +58,8 @@ const cards = [
  *
  * @param {array} deck A deck of cards
  */
-const logCardDeck = deck => {};
+const logCardDeck = deck => {
+  deck.forEach((card) => {
+    console.log(card.val, card.displayVal, card.suit);
+  });
+};
