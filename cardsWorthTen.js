@@ -21,7 +21,15 @@ const cards = [
  * @param {array} cards
  * @return {string} displayVal
  */
-const cardsWorthTen = cards => {};
+isEqualToTen = [];
 
-console.log(cardsWorthTen(cards));
-// should return/log "10, Jack, Queen, King"
+function cardsWorthTenFunction(cards) {
+  if (cards.val === 10) {
+    isEqualToTen.push(cards.displayVal)
+    return cards.displayVal;
+  }
+}
+
+cards.map(cardsWorthTenFunction);
+
+console.log(isEqualToTen);
