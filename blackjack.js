@@ -167,9 +167,6 @@ const startGame = () => {
         outputGamePlay(determineWinner(player, dealer));
         endGame();
       }
-      else {
-        showHand(player);
-      }
     };
   
     document.getElementById('hit').addEventListener("click", hit);
