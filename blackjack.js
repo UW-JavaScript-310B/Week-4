@@ -1,15 +1,54 @@
 const blackjackDeck = getDeck();
 
+
 /**
  * Represents a card player (including dealer).
  * @constructor
  * @param {string} name - The name of the player
  */
-class CardPlayer {}; //TODO
 
-// CREATE TWO NEW CardPlayers
-const dealer; // TODO
-const player; // TODO
+class CardPlayer {
+
+
+  constructor(name) {
+    this.name = name;
+    this.hand = [];
+    
+    };
+
+    //end of constructor
+
+    //random draw of card from the deck
+    drawCard () {
+      const randomCard = deck[Math.floor(Math.random() * 52)];
+      this.hand.push({
+        val: deck.val,
+        displayVal: deck.displayVal,
+        suit: deck.suit
+      });
+      //end of drawCard function
+  };
+
+  introduce() {
+    console.log(`Card Player is ${this.name}.`);
+    //end of introduce function
+  };
+
+  //end of CardPlayer constructor
+}; //TODO
+
+
+
+//CREATE TWO NEW CardPlayers
+const dealer = new CardPlayer('Dealer'); // TODO
+const player = new CardPlayer('Player');; // TODO
+
+dealer.introduce();
+// dealer.drawCard();
+player.introduce();
+
+
+
 
 /**
  * Calculates the score of a Blackjack hand
@@ -18,10 +57,50 @@ const player; // TODO
  * @returns {number} blackJackScore.total
  * @returns {boolean} blackJackScore.isSoft
  */
-const calcPoints = (hand) => {
-  // CREATE FUNCTION HERE
 
-}
+
+// TODO
+const calcPoints = (hand) => {
+
+  let blackJackScore = {
+    total: 0,
+    isSoft: false
+  }
+
+
+  //determine whether the hand is soft
+  const isSoft = function (hand) {
+    if (hand.every((card) => displayVal !== 'Ace')) {
+      isSoft === false;
+    } else if (hand.some((card) => displayVal === 'Ace')) {
+      if (val !== 11) {
+        isSoft !== false;
+      } else if (val === 11) {
+        isSoft === true;
+      }
+    }
+    //end of isSoft function
+  };
+
+  //calc the total for the hand
+
+  for (let index = 0; index < hand.length; index++) {
+    if (hand.displayVal === 'Ace' && hand.val === 11 && (blackJackScore.total + hand.val) > 21)  {
+      blackJackScore.total += 1;
+    } else if (hand.displayVal === 'Ace' && hand.val === 11 && (blackJackScore.total + hand.val) <= 21) {
+      blackJackScore.total += hand.val;
+    } else {
+      blackJackScore.total += hand.val;
+    }
+
+    //end of calcPoints for loop
+  }
+
+ console.log(blackJackScore);
+
+  //end of calPoints function
+};
+
 
 /**
  * Determines whether the dealer should draw another card.
@@ -29,10 +108,20 @@ const calcPoints = (hand) => {
  * @param {Array} dealerHand Array of card objects with val, displayVal, suit properties
  * @returns {boolean} whether dealer should draw another card
  */
+// TODO
 const dealerShouldDraw = (dealerHand) => {
   // CREATE FUNCTION HERE
+  let dealerPoints = calcPoints(dealerHand);
 
+  if (dealerPoints.total <= 16) {
+    return true;
+  } else if (dealerPoints.total === 17 && dealerPoints.isSoft === true) {
+    return true;
+  } else if (dealerPoints.total > 17) {
+    return false;
+  }
 }
+
 
 /**
  * Determines the winner if both player and dealer stand
@@ -40,8 +129,17 @@ const dealerShouldDraw = (dealerHand) => {
  * @param {number} dealerScore 
  * @returns {string} Shows the player's score, the dealer's score, and who wins
  */
+// TODO
 const determineWinner = (playerScore, dealerScore) => {
-  // CREATE FUNCTION HERE
+  if (dealerScore > 21) {
+    return `Player score was ${playerScore}. Dealer Score was ${dealerScore}. Dealer scored more than 21 - Player wins`
+  } else if (playerScore <= 21 && playerScore > dealerScore) {
+    return `Player score was ${playerScore}. Dealer Score was ${dealerScore}. Player wins.`
+  } else if (playerScore === dealerScore) {
+    return `Player score was ${playerScore}. Dealer Score was ${dealerScore}. Player and Dealer are tied.`
+  } else {
+    return `Dealer wins with ${dealerScore}.`
+  }
 
 }
 
@@ -66,7 +164,7 @@ const showHand = (player) => {
 /**
  * Runs Blackjack Game
  */
-const startGame = function() {
+const startGame = function () {
   player.drawCard();
   dealer.drawCard();
   player.drawCard();
@@ -97,4 +195,4 @@ const startGame = function() {
 
   return determineWinner(playerScore, dealerScore);
 }
-// console.log(startGame());
+console.log(startGame());

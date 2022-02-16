@@ -77,7 +77,6 @@ const cards = [{
 const cardsWorthTen = cards => {
 
   let filteredCards = cards.filter((card) => card.val === 10);
-  let filteredVal = [];
   let stringVal = [];
 
   for (let i = 0; i < filteredCards.length; i++) {

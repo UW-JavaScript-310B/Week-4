@@ -38,12 +38,6 @@ const getDeck = () => {
           break;
           //end of switch statement
       }
-      // console.log(j, val, displayVal, suits[i]);
-      // console.log(`index: ${j}, Value: ${val}, Display Value: ${displayVal}, Suit: ${suits[i]`);
-      // let newDeck = console.log(j, j.val, j.displayVal, suits[i]);
-      // return(newDeck);
-
-
 
       //push the card deck into the card array
       cards.push({
@@ -52,15 +46,12 @@ const getDeck = () => {
         displayVal: displayVal,
         suit: suits[i]
       });      
-
-  
-
-      //end of four loop j to create 13 cards for each suit
+    //end of four loop j to create 13 cards for each suit
     };
-
     //end of loop i to create four suits of cards
   };
-  return(cards);
+  
+  return cards;
 };
 
 console.log(getDeck());

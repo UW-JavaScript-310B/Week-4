@@ -269,7 +269,7 @@ const cards = [{
  const logCardDeck = deck => {
   
   for (let i = 0; i <cards.length; i++) {
-    let deck = console.log( `${cards[i].displayVal} of ${cards[i].suit} has a value of ${cards[i].val}`);
+    const deck = console.log( `${cards[i].displayVal} of ${cards[i].suit} has a value of ${cards[i].val}`);
   
   };
   return(deck);
