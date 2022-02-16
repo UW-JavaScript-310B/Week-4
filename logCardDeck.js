@@ -58,4 +58,29 @@ const cards = [
  *
  * @param {array} deck A deck of cards
  */
-const logCardDeck = deck => {};
+const logCardDeck = deck => {
+  cards.forEach((card) => {
+    for (let key in card) {
+      console.log(`${key}: ${card[key]}`);
+    }
+  })
+};
+logCardDeck();
+
+/**
+ * For confirmation all 156 properties (52 cards * 3 key-value pairs)
+ * are being logged; uncomment code below, and comment-out code above. 
+ */ 
+
+/*
+const logCardDeck = deck => {
+  let counter = 0;
+  cards.forEach((card) => {
+    for (let key in card) {
+      counter += 1;
+      console.log(`${counter}) ${key}: ${card[key]}`);
+    }
+  })
+};
+logCardDeck();
+*/
