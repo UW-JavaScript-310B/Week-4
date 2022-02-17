@@ -110,6 +110,7 @@ const dealerShouldDraw = (dealerHand) => {
   // CREATE FUNCTION HERE
   let dealerPoints = calcPoints(dealerHand);
 
+
   if (dealerPoints.total <= 16) {
     return true;
   } else if (dealerPoints.total === 17 && dealerPoints.isSoft === true) {
@@ -131,11 +132,9 @@ const dealerShouldDraw = (dealerHand) => {
 
 const determineWinner = (playerScore, dealerScore) => {
 
-  dealerScore = calcPoints(dealer.hand).total;
-  playerScore = calcPoints(player.hand).total;
-
-  return dealerScore, playerScore;
- 
+dealerScore = calcPoints(dealerHand);
+let playerPoints = calcPoints(player.hand.total);
+playerScore = playerPoints;
 
   if (dealerScore > 21) {
     return `Player score was ${playerScore}. Dealer Score was ${dealerScore}. Dealer scored more than 21 - Player wins`
@@ -204,3 +203,4 @@ const startGame = function () {
   return determineWinner(playerScore, dealerScore);
 }
 console.log(startGame());
+
