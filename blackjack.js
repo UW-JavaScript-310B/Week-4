@@ -13,33 +13,15 @@ class CardPlayer {
     this.hand = [];
     this.drawCard = function () {
       let randomCard = deck[Math.floor(Math.random() * 52)];
-      this.hand.push({
-        val: deck.val,
-        displayVal: deck.displayVal,
-        suit: deck.suit
-      });
+      this.hand.push(randomCard);
+      console.log(randomCard);
     };
 
-
-    // class CreatePlayer {
-    //   constructor(name){
-    //       this.name = name;
-    //       this.hand =[];
-    //       this.drawCard= function (){
-    //           console.log(this.name, 'Draws')
-    //           let randomCard = Math.floor(Math.random()*52);
-    //           this.hand.push(cardDeck[randomCard])
-    //       };
-    //end of constructor
-
-    //random draw of card from the deck
-
     //end of drawCard function
-
   };
 
   introduce() {
-    console.log(`Card Player is ${this.name}.`);
+    console.log(`Card Player is ${this.name}. Card Play hand includes: ${this.hand}`);
     //end of introduce function
   };
 
@@ -49,9 +31,9 @@ class CardPlayer {
 
 
 //CREATE TWO NEW CardPlayers
-const dealer = new CardPlayer('Dealer'); // TODO
+const dealer = new CardPlayer('Dealer Jane'); // TODO
 
-const player = new CardPlayer('Player');; // TODO
+const player = new CardPlayer('Player John');; // TODO
 
 player.introduce();
 
@@ -70,22 +52,23 @@ dealer.introduce();
 // TODO
 const calcPoints = (hand) => {
 
-
-
   let blackJackScore = {
     total: 0,
     isSoft: false
   }
 
-
   //determine whether the hand is soft
   const isSoft = function (hand) {
+    //if every in the hand is not an ace, then the hand is not soft
     if (hand.every((card) => card.displayVal !== 'Ace')) {
       isSoft = false;
     } else if (hand.some((card) => card.displayVal === 'Ace')) {
+      //if some cards are an ace but no card has a value of 11   then hand is not soft
       if (val !== 11) {
         isSoft = false;
-      } else if (val === 11) {
+      }
+      //if any card has a value of eleven there must be at least one Ace making the hand soft
+      else if (val === 11) {
         isSoft = true;
       }
     }
@@ -93,53 +76,36 @@ const calcPoints = (hand) => {
   };
 
   //calc the total for the hand
-
-  // for (let index = 0; index < hand.length; index++) {
-  //   if (hand.displayVal === 'Ace' && hand.val === 11 && (blackJackScore.total + hand.val) > 21)  {
-  //     blackJackScore.total += 1;
-  //   } else if (hand.displayVal === 'Ace' && hand.val === 11 && (blackJackScore.total + hand.val) <= 21) {
-  //     blackJackScore.total += hand.val;
-  //   } else {
-  //     blackJackScore.total += hand.val;
-  //   }
-
-
-
   function blackJackTotal(hand) {
 
     blackJackScore.total = 0;
 
-    for (let i = 0; i < hand.length; i++) {
-      if (blackJackScore.isSoft === true && (blackJackScore.total + hand[i].val) > 21) {
+    for (let index = 0; index < hand.length; index++) {
+      if (hand[i].displayVal === 'Ace' && hand[i].val === 11 && (blackJackScore.total + hand[i].val) > 21) {
         blackJackScore.total += 1;
-      } else if (blackJackScore.isSoft === false && (blackJackScore.total + hand[i].val) <= 21) {
+      } else if (hand[i].displayVal === 'Ace' && hand[i].val === 11 && (blackJackScore.total + hand[i].val) <= 21) {
         blackJackScore.total += hand[i].val;
       } else {
         blackJackScore.total += hand[i].val;
       }
-      //end of calcPoints for loop
-
+      //end of calcPoints for loop to calc blackJackScore.total
     }
 
     //end of blackJackTotal function
   }
-  return blackJackScore.total;
+
+  return blackJackScore;
   //end of calPoints function
 }
 
+    /**
+     * Determines whether the dealer should draw another card.
+     * 
+     * @param {Array} dealerHand Array of card objects with val, displayVal, suit properties
+     * @returns {boolean} whether dealer should draw another card
+     */
 
-
-
-
-
-
-/**
- * Determines whether the dealer should draw another card.
- * 
- * @param {Array} dealerHand Array of card objects with val, displayVal, suit properties
- * @returns {boolean} whether dealer should draw another card
- */
-//TODO
+     //TODO
 const dealerShouldDraw = (dealerHand) => {
   // CREATE FUNCTION HERE
   let dealerPoints = calcPoints(dealerHand);
@@ -161,7 +127,16 @@ const dealerShouldDraw = (dealerHand) => {
  * @returns {string} Shows the player's score, the dealer's score, and who wins
  */
 //TODO
+
+
 const determineWinner = (playerScore, dealerScore) => {
+
+  dealerScore = calcPoints(dealerHand).total;
+  playerScore = calcPoints(playerHand).total;
+
+  console.log(dealerScore);
+  console.log(playerScore);
+
   if (dealerScore > 21) {
     return `Player score was ${playerScore}. Dealer Score was ${dealerScore}. Dealer scored more than 21 - Player wins`
   } else if (playerScore <= 21 && playerScore > dealerScore) {
@@ -172,9 +147,11 @@ const determineWinner = (playerScore, dealerScore) => {
     return `Player score was ${playerScore}. Dealer Score was ${dealerScore}. Dealer wins.`
   }
 
-}
+};
 
-/**
+//  determineWinner( dealerScore, playerScore);
+
+/**DELIVERED CODE STARTS HERE
  * Creates user prompt to ask if they'd like to draw a card
  * @param {number} count 
  * @param {string} dealerCard 
