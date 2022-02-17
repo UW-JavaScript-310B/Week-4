@@ -58,4 +58,10 @@ const cards = [
  *
  * @param {array} deck A deck of cards
  */
-const logCardDeck = deck => {};
+const propertyName = Object.values(cards);
+for (let card of propertyName) {
+  const vals = Object.keys(card)
+  for (let val of vals) {
+    console.log(`${val}: ${card[val]}`)
+  }
+}
