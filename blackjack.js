@@ -42,7 +42,7 @@ const player = new CardPlayer('Player');
  * @returns {boolean} blackJackScore.isSoft
  */
 const calcPoints = (hand) => {
-  let total=0
+  let total_=0
   let isSoft=false
 
   // CREATE FUNCTION HERE
@@ -50,15 +50,16 @@ const calcPoints = (hand) => {
 
     // console.log(hand[thing]['val'])
 
-    total+=hand[thing]['val']
+    total_+=hand[thing]['val']
 
   }
 
-  console.log(total)
+  console.log(total_)
+  // console.log(isSoft)
 
   return {
-    total:total,
-    isSoft
+    total:total_,
+    isSoft,
   }
 
 }
@@ -71,6 +72,18 @@ const calcPoints = (hand) => {
  */
 const dealerShouldDraw = (dealerHand) => {
   // CREATE FUNCTION HERE
+
+  let shouldDraw = true
+
+  let totalPoints_ = calcPoints(dealerHand).total;
+
+  console.log(totalPoints_)
+
+  let isSoft_ = calcPoints(dealerHand).isSoft;
+
+  console.log(`is soft ${isSoft_}`)
+
+  return shouldDraw
 
 }
 
@@ -113,6 +126,8 @@ const startGame = function() {
   dealer.drawCard();
 
   let playerScore = calcPoints(player.hand).total;
+  // let whatever = calcPoints(player.hand).isSoft;
+  // console.log(`whatever ${whatever}`)
   showHand(player);
   while (playerScore < 21 && confirm(getMessage(playerScore, dealer.hand[0]))) {
     player.drawCard();
