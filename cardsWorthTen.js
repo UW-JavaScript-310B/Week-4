@@ -13,7 +13,6 @@ const cards = [
   { val: 10, displayVal: "King", suit: "hearts" },
   { val: 11, displayVal: "Ace", suit: "hearts" }
 ];
-
 /**
  * Takes an array of cards and returns a string of the card display
  * values where the value is equal to 10
@@ -21,7 +20,20 @@ const cards = [
  * @param {array} cards
  * @return {string} displayVal
  */
-const cardsWorthTen = cards => {};
-
+ const cardsWorthTen = cards => {
+   // value to search
+  const searchVal = 10;
+  //use array filter to return only item where the value is equal to 10
+  const arrFilter = cards.filter((item) => item.val == searchVal);
+  // use array reduce function to flatten the array
+  // and return a string
+  let strRet = arrFilter.reduce(
+  (accum,index) => `${accum} ${index.displayVal},`)
+  // format return string as desired
+  strRet = `${searchVal}, ${strRet.slice(0,strRet.length -1)}`;
+  //return result string
+  return strRet;    
+ }
+  
 console.log(cardsWorthTen(cards));
 // should return/log "10, Jack, Queen, King"
