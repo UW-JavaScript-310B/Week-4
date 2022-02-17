@@ -12,11 +12,8 @@ class CardPlayer {
   }
 
   drawCard() {
-    //debugger;
-
     const deck = getDeck();
     const randomCard = deck[Math.floor(Math.random() * 52)];
-    //const randomCard = deck[0]; //pull Aces
     this.hand.push(randomCard);
   }
 }
@@ -75,12 +72,7 @@ const calcPoints = (hand) => {
   let isSoft = false;
   checkSoft(hand, blackJackScore);
   countHand(hand, blackJackScore);
-  hand.forEach((card) => {
-    console.log(card.displayVal);
-  });
-  console.log(
-    `total = ${blackJackScore.total}, isSoft = ${blackJackScore.isSoft}`
-  );
+
   //This seems wrong but it is working correctly. TODO refactor this
   total = blackJackScore.total;
   isSoft = blackJackScore.isSoft;
@@ -98,9 +90,13 @@ const dealerShouldDraw = (dealerHand) => {
   // If the dealer's hand is 16 points or less, the dealer must draw another card
   // If the dealer's hand is exactly 17 points, and the dealer has an Ace valued at 11, the dealer must draw another card
   // Otherwise if the dealer's hand is 17 points or more, the dealer will end her turn
-  if (countHand(dealerHand) < 16) {
+  const blackJackScore = { total: 0, isSoft: false };
+  if (countHand(dealerHand, blackJackScore) < 16) {
     return true;
-  } else if (countHand(dealerHand) === 17 && dealerHand.isSoft) {
+  } else if (
+    countHand(dealerHand, blackJackScore) === 17 &&
+    dealerHand.isSoft
+  ) {
     return true;
   } else {
     return false;
