@@ -28,20 +28,20 @@ const player = new CardPlayer('Player');
  */
 const calcPoints = (hand) => {
   let total = 0;
-    let numAces = 0;
-    let blackJackScore = {};
-    let isSoft = true;
-    hand.forEach((card) => total += card.val);
-    hand.forEach((card) => {if (card.displayVal === 'Ace') {numAces += 1;}})
-    if (total > 21) {
-        do {
-            numAces -= 1;
-            total -= 10;
-        } while (total > 21) 
-    }
-    blackJackScore['total'] = total;
-    blackJackScore['isSoft'] = Boolean(numAces);
-    return blackJackScore;
+  let numAces = 0;
+  let blackJackScore = {};
+  let isSoft = true;
+  hand.forEach((card) => total += card.val);
+  hand.forEach((card) => {if (card.displayVal === 'Ace') {numAces += 1;}})
+  if (total > 21 && numAces > 0) {
+      do {
+          numAces -= 1;
+          total -= 10;
+      } while (total > 21 && numAces > 0) 
+  }
+  blackJackScore['total'] = total;
+  blackJackScore['isSoft'] = Boolean(numAces);
+  return blackJackScore;
 }
 
 /**
