@@ -58,4 +58,23 @@ const cards = [
  *
  * @param {array} deck A deck of cards
  */
-const logCardDeck = deck => {};
+
+
+
+const logCardDeck = deck => {
+
+  let vals =  cards.map(a => a.val);
+  let dispVals =  cards.map(a => a.displayVal);
+  let suits = cards.map(a => a.suit);
+  
+
+  const cardValsFilter = cards.filter(item => item.suit !== false );
+  let cardCount = cardValsFilter;
+
+  for (i = 0; i < cardCount.length; i++){
+    console.log(`this is Card # ${Object.keys(cardCount)[i]}: It has a Value of ${vals[i]}, it has a Display Value of ${dispVals[i]}, and it belongs to the ${suits[i]} suit.`)
+  }
+  
+};
+
+logCardDeck();
