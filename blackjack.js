@@ -131,11 +131,11 @@ const dealerShouldDraw = (dealerHand) => {
 
 const determineWinner = (playerScore, dealerScore) => {
 
-  dealerScore = calcPoints(dealerHand).total;
-  playerScore = calcPoints(playerHand).total;
+  dealerScore = calcPoints(dealer.hand).total;
+  playerScore = calcPoints(player.hand).total;
 
-  console.log(dealerScore);
-  console.log(playerScore);
+  return dealerScore, playerScore;
+ 
 
   if (dealerScore > 21) {
     return `Player score was ${playerScore}. Dealer Score was ${dealerScore}. Dealer scored more than 21 - Player wins`
