@@ -95,6 +95,21 @@ const dealerShouldDraw = (dealerHand) => {
  */
 const determineWinner = (playerScore, dealerScore) => {
   // CREATE FUNCTION HERE
+  let winner =""
+  console.log(playerScore)
+  console.log(dealerScore)
+  console.log(winner)
+  if (playerScore === dealerScore){
+    winner="it is a tie!"
+
+  } else if (playerScore>dealerScore){
+    winner="player"
+  } else {
+    winner ="dealer"
+  }
+
+  // console.log(`playerScore is ${playerScore}, dealerScore is ${dealerScore}, winner is ${winner}`)
+  return `playerScore is ${playerScore}, dealerScore is ${dealerScore}, winner is ${winner}`
 
 }
 
@@ -150,6 +165,10 @@ const startGame = function() {
   }
   console.log(`Dealer stands at ${dealerScore}`);
 
+  // code below does not execute because a return happens before getting here
+
   return determineWinner(playerScore, dealerScore);
+
 }
 console.log(startGame());
+
