@@ -5,11 +5,58 @@ const blackjackDeck = getDeck();
  * @constructor
  * @param {string} name - The name of the player
  */
-class CardPlayer {}; //TODO
+class CardPlayer {
+  constructor(name) {
+    this.name = name;
+    this.hand = [];
+  }
+
+  drawCard() {
+    const deck = getDeck();
+    const randomCard = deck[Math.floor(Math.random() * 52)];
+    this.hand.push(randomCard);
+  }
+}
 
 // CREATE TWO NEW CardPlayers
-const dealer; // TODO
-const player; // TODO
+const dealer = new CardPlayer("dealer");
+const player = new CardPlayer(prompt("Please enter your name:", "player 1"));
+
+/**
+ * Calculates value of hand
+ * @param {Array} hand - Array of card objects with val, displayVal, suit properties
+ * @param {Object} blackJackScore
+ */
+function countHand(hand, blackJackScore) {
+  for (card of hand) {
+    blackJackScore.total += card.val;
+  }
+
+  return blackJackScore.total;
+}
+
+/**
+ * Checks if hand is soft
+ * @param {Array} hand - Array of 90card objects with val, displayVal, suit properties
+ * @param {Object} blackJackScore
+ */
+function checkSoft(hand, blackJackScore) {
+  //Check if it is soft
+  let filteredAces = hand.filter(
+    (card) =>
+      (card.displayVal.toString().toLowerCase() === "ace") & (card.val === 11)
+  );
+  //debugger;
+  if (filteredAces.length === 1) {
+    blackJackScore.isSoft = true;
+  } else if (filteredAces.length >= 2) {
+    for (let index = 1; index < filteredAces.length; index++) {
+      filteredAces[index].val = 1;
+    }
+    blackJackScore.isSoft = true;
+  }
+  return blackJackScore.isSoft;
+}
 
 /**
  * Calculates the score of a Blackjack hand
@@ -19,54 +66,85 @@ const player; // TODO
  * @returns {boolean} blackJackScore.isSoft
  */
 const calcPoints = (hand) => {
-  // CREATE FUNCTION HERE
+  //cant use blackJackScore variable
+  const blackJackScore = { total: 0, isSoft: false };
+  let total = 0;
+  let isSoft = false;
+  checkSoft(hand, blackJackScore);
+  countHand(hand, blackJackScore);
 
-}
+  //This seems wrong but it is working correctly. TODO refactor this
+  total = blackJackScore.total;
+  isSoft = blackJackScore.isSoft;
+  return { total, isSoft };
+};
 
 /**
  * Determines whether the dealer should draw another card.
- * 
+ *
  * @param {Array} dealerHand Array of card objects with val, displayVal, suit properties
  * @returns {boolean} whether dealer should draw another card
  */
 const dealerShouldDraw = (dealerHand) => {
   // CREATE FUNCTION HERE
-
-}
+  // If the dealer's hand is 16 points or less, the dealer must draw another card
+  // If the dealer's hand is exactly 17 points, and the dealer has an Ace valued at 11, the dealer must draw another card
+  // Otherwise if the dealer's hand is 17 points or more, the dealer will end her turn
+  const blackJackScore = { total: 0, isSoft: false };
+  if (countHand(dealerHand, blackJackScore) < 16) {
+    return true;
+  } else if (
+    countHand(dealerHand, blackJackScore) === 17 &&
+    dealerHand.isSoft
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 /**
  * Determines the winner if both player and dealer stand
- * @param {number} playerScore 
- * @param {number} dealerScore 
+ * @param {number} playerScore
+ * @param {number} dealerScore
  * @returns {string} Shows the player's score, the dealer's score, and who wins
  */
 const determineWinner = (playerScore, dealerScore) => {
-  // CREATE FUNCTION HERE
-
-}
+  if ((playerScore = dealerScore)) {
+    return `Player and dealer both have ${playerScore}. This is a tie.`;
+  } else if (playerScore > dealerScore) {
+    return `Player has ${playerScore} and dealer has ${dealerScore}. Player wins.`;
+  } else {
+    return `Player has ${playerScore} and dealer has ${dealerScore}. Dealer wins.`;
+  }
+};
 
 /**
  * Creates user prompt to ask if they'd like to draw a card
- * @param {number} count 
- * @param {string} dealerCard 
+ * @param {number} count
+ * @param {string} dealerCard
  */
 const getMessage = (count, dealerCard) => {
-  return `Dealer showing ${dealerCard.displayVal}, your count is ${count}.  Draw card?`
-}
+  return `Dealer showing ${dealerCard.displayVal}, your count is ${count}.  Draw card?`;
+};
 
 /**
  * Logs the player's hand to the console
- * @param {CardPlayer} player 
+ * @param {CardPlayer} player
  */
 const showHand = (player) => {
   const displayHand = player.hand.map((card) => card.displayVal);
-  console.log(`${player.name}'s hand is ${displayHand.join(', ')} (${calcPoints(player.hand).total})`);
-}
+  console.log(
+    `${player.name}'s hand is ${displayHand.join(", ")} (${
+      calcPoints(player.hand).total
+    })`
+  );
+};
 
 /**
  * Runs Blackjack Game
  */
-const startGame = function() {
+const startGame = function () {
   player.drawCard();
   dealer.drawCard();
   player.drawCard();
@@ -80,7 +158,7 @@ const startGame = function() {
     showHand(player);
   }
   if (playerScore > 21) {
-    return 'You went over 21 - you lose!';
+    return "You went over 21 - you lose!";
   }
   console.log(`Player stands at ${playerScore}`);
 
@@ -91,10 +169,10 @@ const startGame = function() {
     showHand(dealer);
   }
   if (dealerScore > 21) {
-    return 'Dealer went over 21 - you win!';
+    return "Dealer went over 21 - you win!";
   }
   console.log(`Dealer stands at ${dealerScore}`);
 
   return determineWinner(playerScore, dealerScore);
-}
-// console.log(startGame());
+};
+console.log(startGame());

@@ -11,7 +11,7 @@ const cards = [
   { val: 10, displayVal: "Jack", suit: "hearts" },
   { val: 10, displayVal: "Queen", suit: "hearts" },
   { val: 10, displayVal: "King", suit: "hearts" },
-  { val: 11, displayVal: "Ace", suit: "hearts" }
+  { val: 11, displayVal: "Ace", suit: "hearts" },
 ];
 
 /**
@@ -21,7 +21,14 @@ const cards = [
  * @param {array} cards
  * @return {string} displayVal
  */
-const cardsWorthTen = cards => {};
+const cardsWorthTen = (cards) => {
+  let filteredCards = cards.filter((card) => card.val === 10);
+  let nameFilteredCards = [];
+
+  filteredCards.map((item) => nameFilteredCards.push(`${item.displayVal}`));
+
+  return nameFilteredCards.join();
+};
 
 console.log(cardsWorthTen(cards));
 // should return/log "10, Jack, Queen, King"
