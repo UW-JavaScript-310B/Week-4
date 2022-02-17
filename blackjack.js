@@ -11,6 +11,7 @@ const cardDeck = getDeck()
         this.name = name;
         this.hand =[];
         this.drawCard= function (){
+            console.log(this.name, 'Draws')
             let randomCard = Math.floor(Math.random()*52);
             this.hand.push(cardDeck[randomCard])
         };
@@ -33,27 +34,29 @@ const cardDeck = getDeck()
   * @returns {boolean} blackJackScore.isSoft
   */
 const calcPoints = (hand) => {
-    let aceCount =0;
     let blackJackScore = {
         isSoft: true,
-        total:0
+        total:0,
+        aceCount:0
     }
     for(let i=0 ; i<hand.length;i++){
         if(hand[i].displayVal=='Ace'){
-            aceCount+=1
+            blackJackScore.aceCount+=1
         }
-        if(aceCount>1){
+        if(blackJackScore.aceCount>1){
             if(hand[i].displayVal=='Ace'){
-                aceCount+=1
-                hand[i].val = 1
-            }else{
-                continue
-            }
-        
+            blackJackScore.aceCount+=1
+            hand[i].val = 1
+        }else{
+            continue
+        }
         }
         blackJackScore.total+=hand[i].val
     }
-    if(aceCount>0){
+    if(blackJackScore.total>21 && blackJackScore.aceCount>=1){
+            blackJackScore.total-=10
+    }
+    if(blackJackScore.aceCount>0){
         blackJackScore.isSoft=true
 
         return blackJackScore
@@ -73,13 +76,18 @@ const calcPoints = (hand) => {
   */
  const dealerShouldDraw = (dealerHand) => {
    // CREATE FUNCTION HERE
-    let points = calcPoints(dealerHand)
+    let points = calcPoints(dealerHand).total
+    let ace = calcPoints(dealerHand).aceCount
     if(points<=16){
         return true
-    }else{
+    }
+    if(points==17){
+        if(ace == 1){
+            return true
+        }
         return false
     }
- 
+
  }
  
  /**
@@ -92,9 +100,9 @@ const calcPoints = (hand) => {
     if(playerScore>21){
         if(dealerScore>21){
             return `
-            Player: Bust -> ${playerScore}
-            Dealer: Bust -> ${dealerScore}
-            Result: Dealer and You, Busted`
+            Player: Bust-> Win -> ${playerScore}
+            Dealer: Bust -> Loose -> ${dealerScore}
+            Result: You Win`
         }
         return `
         Player: Bust -> ${playerScore}
@@ -112,7 +120,7 @@ const calcPoints = (hand) => {
             return `
             Player: TIE -> ${playerScore}
             Dealer: TIE -> ${dealerScore}
-            Result: BY HOUSE RULES A TIE, Dealer Wins`
+            Result: PUSH`
         }
         return `
             Player: Win -> ${playerScore}
@@ -123,7 +131,7 @@ const calcPoints = (hand) => {
         return `
         Player: TIE -> ${playerScore}
         Dealer: TIE -> ${dealerScore}
-        Result: BY HOUSE RULES A TIE, Dealer Wins`
+        Result: PUSH`
     }
 
 }
@@ -151,12 +159,31 @@ const calcPoints = (hand) => {
   */
  const startGame = function() {
    player.drawCard();
+   showHand(player)
    dealer.drawCard();
+   showHand(dealer)
    player.drawCard();
+   showHand(player)
    dealer.drawCard();
- 
+   let dealerScore = calcPoints(dealer.hand).total;
    let playerScore = calcPoints(player.hand).total;
-   showHand(player);
+//    #8 Extra Credit:
+    if(playerScore ===21 || dealerScore ===21 ){
+        if(playerScore===dealerScore){
+            showHand(dealer)
+            return`
+            The Dealer wins a Tied Black Jack
+            `
+        }
+        if(playerScore===21 && dealerScore!==21){
+            showHand(dealer)
+            return`
+            BlackJack You WIN!`
+        }
+        showHand(dealer)
+            return`
+            The Dealer wins Black Jack`
+    }
    while (playerScore < 21 && confirm(getMessage(playerScore, dealer.hand[0]))) {
      player.drawCard();
      playerScore = calcPoints(player.hand).total;
@@ -166,9 +193,9 @@ const calcPoints = (hand) => {
 //    if (playerScore > 21) {
 //      return "You went over 21 - you lose!";
 //    }
+
    console.log(`Player stands at ${playerScore}`);
- 
-   let dealerScore = calcPoints(dealer.hand).total;
+   showHand(dealer);
    while (dealerScore < 21 && dealerShouldDraw(dealer.hand)) {
      dealer.drawCard();
      dealerScore = calcPoints(dealer.hand).total;
