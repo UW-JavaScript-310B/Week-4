@@ -51,8 +51,16 @@ const calcPoints = (hand) => {
  * @returns {boolean} whether dealer should draw another card
  */
 const dealerShouldDraw = (dealerHand) => {
-  // CREATE FUNCTION HERE
-
+  let handObject = calcPoints(dealerHand);
+  let handValue = handObject.total;
+  let handHasAceValueEleven = handObject.isSoft;
+  if (handValue <= 16) {
+    return true;
+  } else if (handValue === 17 && handHasAceValueEleven) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 /**
