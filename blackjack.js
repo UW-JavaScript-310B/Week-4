@@ -5,11 +5,21 @@ const blackjackDeck = getDeck();
  * @constructor
  * @param {string} name - The name of the player
  */
-class CardPlayer {}; //TODO
+ class CardPlayer {
+	constructor(name) {
+  	this.name = name;
+    this.hand = [];
+  }
+  drawCard() {
+  	const random = Math.floor(Math.random() * blackjackDeck.length);
+  	this.hand.push(blackjackDeck[random])
+    blackjackDeck.splice(random, 1);
+  }
+};
 
 // CREATE TWO NEW CardPlayers
-const dealer; // TODO
-const player; // TODO
+const dealer = new CardPlayer('Dealer');
+const player = new CardPlayer (prompt("Enter your name here"));
 
 /**
  * Calculates the score of a Blackjack hand
@@ -18,9 +28,25 @@ const player; // TODO
  * @returns {number} blackJackScore.total
  * @returns {boolean} blackJackScore.isSoft
  */
-const calcPoints = (hand) => {
-  // CREATE FUNCTION HERE
-
+ const calcPoints = (hand) => {
+  let aces = 0;
+  let isSoft = false;
+  let total = 0;
+  hand.forEach(card => {
+  	total += card.val;
+    if (card.displayVal === 'ace') {
+    	aces ++;
+    }
+  });
+  while (aces > 0 && total > 21) {
+  	isSoft = true;
+    aces--;
+  	total -= 10;
+  }
+  return {
+  	total: total,
+    isSoft: isSoft
+  }
 }
 
 /**
@@ -29,9 +55,12 @@ const calcPoints = (hand) => {
  * @param {Array} dealerHand Array of card objects with val, displayVal, suit properties
  * @returns {boolean} whether dealer should draw another card
  */
-const dealerShouldDraw = (dealerHand) => {
-  // CREATE FUNCTION HERE
-
+ const dealerShouldDraw = (dealerHand) => {
+  const score = calcPoints(dealerHand);
+  if (score.total < 17 || (score.total === 17 && score.isSoft === true)) {
+  	return true;
+  }
+  return false;
 }
 
 /**
@@ -41,9 +70,14 @@ const dealerShouldDraw = (dealerHand) => {
  * @returns {string} Shows the player's score, the dealer's score, and who wins
  */
 const determineWinner = (playerScore, dealerScore) => {
-  // CREATE FUNCTION HERE
-
-}
+    let winner;
+    if (playerScore > dealerScore) {
+      winner = player;
+    } else {
+      winner = dealer;
+    }
+    return `Player scored ${playerScore} and Dealer score ${dealerScore}, the winner is ${winner.name}!`
+  }
 
 /**
  * Creates user prompt to ask if they'd like to draw a card
@@ -97,4 +131,4 @@ const startGame = function() {
 
   return determineWinner(playerScore, dealerScore);
 }
-// console.log(startGame());
+ console.log(startGame());
