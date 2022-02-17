@@ -23,14 +23,16 @@ class CardPlayer {
 
     this.hand.push(randomElement)
 
+    console.log(this.hand)
+
   }
 
 } //TODO
 
 // CREATE TWO NEW CardPlayers
 
-const dealer = new CardPlayer('Dealer'); // TODO
-const player = new CardPlayer('Player'); // TODO
+const dealer = new CardPlayer('Dealer');
+const player = new CardPlayer('Player');
 
 /**
  * Calculates the score of a Blackjack hand
@@ -40,10 +42,24 @@ const player = new CardPlayer('Player'); // TODO
  * @returns {boolean} blackJackScore.isSoft
  */
 const calcPoints = (hand) => {
-
+  let total=0
+  let isSoft=false
 
   // CREATE FUNCTION HERE
+  for (let thing in hand){
 
+    // console.log(hand[thing]['val'])
+
+    total+=hand[thing]['val']
+
+  }
+
+  console.log(total)
+
+  return {
+    total:total,
+    isSoft
+  }
 
 }
 
@@ -92,7 +108,6 @@ const showHand = (player) => {
  */
 const startGame = function() {
   player.drawCard();
-  // console.log(player.hand)
   dealer.drawCard();
   player.drawCard();
   dealer.drawCard();
