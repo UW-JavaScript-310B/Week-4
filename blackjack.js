@@ -114,6 +114,9 @@ const startGame = function() {
   }
   if (playerScore > 21) {
     return 'You went over 21 - you lose!';
+  // Extra Credit # 8, part one of two
+  } else if (playerScore === 21 && player.hand.length === 2) {
+    return `Player wins with ${player.hand.length} cards.`
   }
   console.log(`Player stands at ${playerScore}`);
 
@@ -125,6 +128,9 @@ const startGame = function() {
   }
   if (dealerScore > 21) {
     return 'Dealer went over 21 - you win!';
+  // Extra Credit # 8 part two of two
+  } else if (dealerScore === 21 && dealer.hand.length === 2) {
+    return `Dealer wins with ${dealer.hand.length} cards.`
   }
   console.log(`Dealer stands at ${dealerScore}`);
 
