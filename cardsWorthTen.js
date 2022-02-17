@@ -21,15 +21,25 @@ const cards = [
  * @param {array} cards
  * @return {string} displayVal
  */
+
+// two solutions below, please let me know which one is preferred.
+
+// solution one uses map method
+
 isEqualToTen = [];
 
-function cardsWorthTenFunction(cards) {
+function cardsWorthTenMapFunction(cards) {
   if (cards.val === 10) {
     isEqualToTen.push(cards.displayVal)
     return cards.displayVal;
   }
 }
 
-cards.map(cardsWorthTenFunction);
+cards.map(cardsWorthTenMapFunction);
 
 console.log(isEqualToTen);
+
+// solution two uses filter method
+
+const cardsWorthTenFilter = cards.filter((cardsWorthTen) => cardsWorthTen.val === 10);
+console.log(cardsWorthTenFilter);

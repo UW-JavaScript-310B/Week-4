@@ -34,8 +34,8 @@ const getDeck = () => {
           break;
       }
       cards.push({
-        "card value": val,
-        "card face": displayVal,
+        val,
+        displayVal,
         suit: suits[index]
       })
     }
@@ -48,7 +48,7 @@ const deck = getDeck();
 console.log(`Deck length equals 52? ${deck.length === 52}`);
 
 const randomCard = deck[Math.floor(Math.random() * 52)];
-
+console.log(randomCard);
 const cardHasVal = randomCard && randomCard.val && typeof randomCard.val === 'number';
 console.log(`Random card has val? ${cardHasVal}`);
 

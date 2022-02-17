@@ -8,13 +8,21 @@ const blackjackDeck = getDeck();
 class CardPlayer {
   constructor(name) {
     this.name = name;
+    this.hand = [];
+    // this.hand = [{val: 2, displayVal: 2, suit: 'clubs'},{val: 11, displayVal: 'ace', suit: 'clubs'},{val: 11, displayVal: 'ace', suit: 'clubs'}];
   }
-}; //TODO
+  drawCard() {
+    const randomCard = blackjackDeck[Math.floor(Math.random() * 52)];
+    return this.hand.push(randomCard);
+  }
+};
 
 // CREATE TWO NEW CardPlayers
-const dealer; // TODO
-const player; // TODO
+const dealer = new CardPlayer('Dealer'); // TODO
+const player = new CardPlayer('Player'); // TODO
 
+console.log("dealer:", dealer.hand)
+console.log("player:", player.hand)
 /**
  * Calculates the score of a Blackjack hand
  * @param {Array} hand - Array of card objects with val, displayVal, suit properties
@@ -23,9 +31,20 @@ const player; // TODO
  * @returns {boolean} blackJackScore.isSoft
  */
 const calcPoints = (hand) => {
-  // CREATE FUNCTION HERE
+  let total = hand.reduce((previousValue, currentValue) => previousValue + currentValue.val, 0);
+  let isSoft = false;
+  const acePresent = hand.find(element => element.displayVal === 'ace');
+  for (let i = 0; i < hand.length; i++) {
+    if (acePresent > 1) {
+      hand[i].val === 1;
+      isSoft = true;
+    } else {
+      hand[i].val === hand.val;
+    }
+  }
+  return blackJackScore = {total, isSoft};
+};
 
-}
 
 /**
  * Determines whether the dealer should draw another card.
@@ -33,10 +52,16 @@ const calcPoints = (hand) => {
  * @param {Array} dealerHand Array of card objects with val, displayVal, suit properties
  * @returns {boolean} whether dealer should draw another card
  */
+// bug fix: dealerHand only returning the displayVal of first card in index. 
+// is this because in blackjack, dealer has one card face down, and one card face up?
 const dealerShouldDraw = (dealerHand) => {
-  // CREATE FUNCTION HERE
-
-}
+  const dealerScore = calcPoints(dealerHand);
+  if (dealerScore.total <= 16 || (dealerScore.total === 17 && dealerScore.isSoft == false)) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 /**
  * Determines the winner if both player and dealer stand
@@ -44,10 +69,18 @@ const dealerShouldDraw = (dealerHand) => {
  * @param {number} dealerScore 
  * @returns {string} Shows the player's score, the dealer's score, and who wins
  */
-const determineWinner = (playerScore, dealerScore) => {
-  // CREATE FUNCTION HERE
 
+const determineWinner = (playerScore, dealerScore) => {
+  console.log("player's score: ", playerScore, "dealer's score: ", dealerScore);
+  if (playerScore > dealerScore) {
+    return console.log(player, " wins")
+  } else if (playerScore < dealerScore) {
+    return console.log(dealer, " wins")
+  } else if (playerScore === dealerScore) {
+    return console.log("no winner, PUSH");
+  }
 }
+
 
 /**
  * Creates user prompt to ask if they'd like to draw a card
@@ -70,7 +103,7 @@ const showHand = (player) => {
 /**
  * Runs Blackjack Game
  */
-const startGame = function() {
+const startGame = function () {
   player.drawCard();
   dealer.drawCard();
   player.drawCard();
@@ -101,4 +134,4 @@ const startGame = function() {
 
   return determineWinner(playerScore, dealerScore);
 }
-// console.log(startGame());
+console.log(startGame());
