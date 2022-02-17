@@ -70,8 +70,12 @@ const dealerShouldDraw = (dealerHand) => {
  * @returns {string} Shows the player's score, the dealer's score, and who wins
  */
 const determineWinner = (playerScore, dealerScore) => {
-  // CREATE FUNCTION HERE
-
+  // startGame() has ability to end game if player/dealerScore > 21
+  if (playerScore > dealerScore) {
+    return `Player wins with ${playerScore}, as dealer's hand is ${dealerScore}.`;
+  } else {
+    return `Dealer wins with ${dealerScore}, as player's hand is ${playerScore}.`;
+  }
 }
 
 /**
@@ -126,4 +130,4 @@ const startGame = function() {
 
   return determineWinner(playerScore, dealerScore);
 }
-// console.log(startGame());
+console.log(startGame());
