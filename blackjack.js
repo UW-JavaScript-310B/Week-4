@@ -8,25 +8,34 @@ const blackjackDeck = getDeck();
  */
 
 class CardPlayer {
-
-
   constructor(name) {
     this.name = name;
     this.hand = [];
-    
-    };
-
-    //end of constructor
-
-    //random draw of card from the deck
-    drawCard () {
-      const randomCard = deck[Math.floor(Math.random() * 52)];
+    this.drawCard = function () {
+      let randomCard = deck[Math.floor(Math.random() * 52)];
       this.hand.push({
         val: deck.val,
         displayVal: deck.displayVal,
         suit: deck.suit
       });
-      //end of drawCard function
+    };
+
+
+    // class CreatePlayer {
+    //   constructor(name){
+    //       this.name = name;
+    //       this.hand =[];
+    //       this.drawCard= function (){
+    //           console.log(this.name, 'Draws')
+    //           let randomCard = Math.floor(Math.random()*52);
+    //           this.hand.push(cardDeck[randomCard])
+    //       };
+    //end of constructor
+
+    //random draw of card from the deck
+
+    //end of drawCard function
+
   };
 
   introduce() {
@@ -41,13 +50,12 @@ class CardPlayer {
 
 //CREATE TWO NEW CardPlayers
 const dealer = new CardPlayer('Dealer'); // TODO
+
 const player = new CardPlayer('Player');; // TODO
 
-dealer.introduce();
-// dealer.drawCard();
 player.introduce();
 
-
+dealer.introduce();
 
 
 /**
@@ -62,6 +70,8 @@ player.introduce();
 // TODO
 const calcPoints = (hand) => {
 
+
+
   let blackJackScore = {
     total: 0,
     isSoft: false
@@ -70,13 +80,13 @@ const calcPoints = (hand) => {
 
   //determine whether the hand is soft
   const isSoft = function (hand) {
-    if (hand.every((card) => displayVal !== 'Ace')) {
-      isSoft === false;
-    } else if (hand.some((card) => displayVal === 'Ace')) {
+    if (hand.every((card) => card.displayVal !== 'Ace')) {
+      isSoft = false;
+    } else if (hand.some((card) => card.displayVal === 'Ace')) {
       if (val !== 11) {
-        isSoft !== false;
+        isSoft = false;
       } else if (val === 11) {
-        isSoft === true;
+        isSoft = true;
       }
     }
     //end of isSoft function
@@ -84,22 +94,43 @@ const calcPoints = (hand) => {
 
   //calc the total for the hand
 
-  for (let index = 0; index < hand.length; index++) {
-    if (hand.displayVal === 'Ace' && hand.val === 11 && (blackJackScore.total + hand.val) > 21)  {
-      blackJackScore.total += 1;
-    } else if (hand.displayVal === 'Ace' && hand.val === 11 && (blackJackScore.total + hand.val) <= 21) {
-      blackJackScore.total += hand.val;
-    } else {
-      blackJackScore.total += hand.val;
+  // for (let index = 0; index < hand.length; index++) {
+  //   if (hand.displayVal === 'Ace' && hand.val === 11 && (blackJackScore.total + hand.val) > 21)  {
+  //     blackJackScore.total += 1;
+  //   } else if (hand.displayVal === 'Ace' && hand.val === 11 && (blackJackScore.total + hand.val) <= 21) {
+  //     blackJackScore.total += hand.val;
+  //   } else {
+  //     blackJackScore.total += hand.val;
+  //   }
+
+
+
+  function blackJackTotal(hand) {
+
+    blackJackScore.total = 0;
+
+    for (let i = 0; i < hand.length; i++) {
+      if (blackJackScore.isSoft === true && (blackJackScore.total + hand[i].val) > 21) {
+        blackJackScore.total += 1;
+      } else if (blackJackScore.isSoft === false && (blackJackScore.total + hand[i].val) <= 21) {
+        blackJackScore.total += hand[i].val;
+      } else {
+        blackJackScore.total += hand[i].val;
+      }
+      //end of calcPoints for loop
+
     }
 
-    //end of calcPoints for loop
+    //end of blackJackTotal function
   }
-
- console.log(blackJackScore);
-
+  return blackJackScore.total;
   //end of calPoints function
-};
+}
+
+
+
+
+
 
 
 /**
@@ -108,7 +139,7 @@ const calcPoints = (hand) => {
  * @param {Array} dealerHand Array of card objects with val, displayVal, suit properties
  * @returns {boolean} whether dealer should draw another card
  */
-// TODO
+//TODO
 const dealerShouldDraw = (dealerHand) => {
   // CREATE FUNCTION HERE
   let dealerPoints = calcPoints(dealerHand);
@@ -129,7 +160,7 @@ const dealerShouldDraw = (dealerHand) => {
  * @param {number} dealerScore 
  * @returns {string} Shows the player's score, the dealer's score, and who wins
  */
-// TODO
+//TODO
 const determineWinner = (playerScore, dealerScore) => {
   if (dealerScore > 21) {
     return `Player score was ${playerScore}. Dealer Score was ${dealerScore}. Dealer scored more than 21 - Player wins`
@@ -138,7 +169,7 @@ const determineWinner = (playerScore, dealerScore) => {
   } else if (playerScore === dealerScore) {
     return `Player score was ${playerScore}. Dealer Score was ${dealerScore}. Player and Dealer are tied.`
   } else {
-    return `Dealer wins with ${dealerScore}.`
+    return `Player score was ${playerScore}. Dealer Score was ${dealerScore}. Dealer wins.`
   }
 
 }
