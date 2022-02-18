@@ -104,7 +104,7 @@ const calcPoints = (hand) => {
     isSoft = true
   }
 
-  console.log(total_)
+  //console.log(total_)
   // console.log(isSoft)
 
   return {
