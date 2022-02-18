@@ -44,6 +44,9 @@ const player = new CardPlayer('Player');
 const calcPoints = (hand) => {
   let total_=0
   let isSoft=false
+  // let tot = 0
+  // let countOne=0
+  let countEleven=0
 
   // CREATE FUNCTION HERE
   for (let thing in hand){
@@ -52,6 +55,53 @@ const calcPoints = (hand) => {
 
     total_+=hand[thing]['val']
 
+  }
+
+  let count = 0
+
+  for (let thing in hand){
+
+    if (hand[thing]['displayVal']==='ace'){
+      count+=1
+    }
+
+  }
+
+  if (total_>21 && count === 1){
+
+    const index = hand.findIndex(element=> element.displayVal === 'ace')
+
+    hand[index]['val']=1
+
+  } else if (total_>21 && count>1){
+
+    for (let thing in hand){
+
+      if (hand[thing]['val']=== 11){
+
+        hand[thing]['val']=1
+
+      }
+
+    }
+
+  }
+
+  for (let thing in hand){
+
+    if (hand[thing]['displayVal']==='ace' && hand[thing]['val']===11){
+      countEleven +=1
+    }
+
+  }
+
+
+  if (count===0){
+    isSoft = false
+  }else if (countEleven !==0){
+    isSoft = false
+  }else if (countEleven >= 1){
+    isSoft = true
   }
 
   console.log(total_)
