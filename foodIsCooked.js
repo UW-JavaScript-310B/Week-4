@@ -17,7 +17,6 @@ const foodIsCooked = function(kind, internalTemp, doneness) {
   } else if (kind === 'chicken') {
       return internalTemp >= 165
     }
-
 }
 
 // Test function
