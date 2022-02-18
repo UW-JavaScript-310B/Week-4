@@ -96,6 +96,14 @@ const showHand = (player) => {
   console.log(`${player.name}'s hand is ${displayHand.join(', ')} (${calcPoints(player.hand).total})`);
 }
 
+// Tried to get Extra Credit # 7 working, but no luck.
+/*
+const showHandHTML = (playerhand) => {
+  const displayHand = playerhand.map((card) => card.displayVal);
+  return displayHand;
+}
+*/
+
 /**
  * Runs Blackjack Game
  */
@@ -111,6 +119,8 @@ const startGame = function() {
     player.drawCard();
     playerScore = calcPoints(player.hand).total;
     showHand(player);
+//  Tried to get Extra Credit # 7 working, but no luck.
+//  document.getElementById('playershand').innerHTML = `${showHand(player)}`;
   }
   if (playerScore > 21) {
     return 'You went over 21 - you lose!';
@@ -125,6 +135,8 @@ const startGame = function() {
     dealer.drawCard();
     dealerScore = calcPoints(dealer.hand).total;
     showHand(dealer);
+//  Tried to get Extra Credit # 7 working, but no luck.
+//  document.getElementById('dealershand').innerHTML = `${showHand(dealer)}`;
   }
   if (dealerScore > 21) {
     return 'Dealer went over 21 - you win!';
