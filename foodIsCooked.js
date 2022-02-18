@@ -1,3 +1,5 @@
+
+
 /**
  * Determines whether meat temperature is high enough
  * @param {string} kind 
@@ -8,7 +10,16 @@
 const foodIsCooked = function(kind, internalTemp, doneness) {
   // Write function HERE
 
-}
+  if (kind === 'chicken' && internalTemp >= 165){
+    return true;
+  }
+  else if (kind === 'beef' && internalTemp >= 138 && doneness === 'medium' || doneness === 'rare'){
+    return true
+  }
+  else {
+  return false
+  }
+  };
 
 
 
@@ -18,3 +29,4 @@ console.log(foodIsCooked('chicken', 190)); // should be true
 console.log(foodIsCooked('beef', 138, 'well')); // should be false
 console.log(foodIsCooked('beef', 138, 'medium')); // should be true
 console.log(foodIsCooked('beef', 138, 'rare')); // should be true
+
