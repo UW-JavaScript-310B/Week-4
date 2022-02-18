@@ -16,10 +16,11 @@ class CardPlayer {
       this.hand.push(randomCard);
       console.log(randomCard);
     };
-
+  
     //end of drawCard function
   };
-
+ 
+  
   introduce() {
     console.log(`Card Player is ${this.name}. Card Play hand includes: ${this.hand}`);
     //end of introduce function
@@ -33,7 +34,7 @@ class CardPlayer {
 //CREATE TWO NEW CardPlayers
 const dealer = new CardPlayer('Dealer Jane'); // TODO
 
-const player = new CardPlayer('Player John');; // TODO
+const player = new CardPlayer('Player John'); // TODO
 
 player.introduce();
 
@@ -148,8 +149,7 @@ playerScore = playerPoints;
 
 };
 
-//  determineWinner( dealerScore, playerScore);
-
+ 
 /**DELIVERED CODE STARTS HERE
  * Creates user prompt to ask if they'd like to draw a card
  * @param {number} count 
@@ -203,4 +203,3 @@ const startGame = function () {
   return determineWinner(playerScore, dealerScore);
 }
 console.log(startGame());
-
