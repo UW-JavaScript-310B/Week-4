@@ -1,3 +1,4 @@
+(function () {
 const cards = [
   { val: 2, displayVal: '2', suit: 'hearts' },
   { val: 3, displayVal: '3', suit: 'hearts' },
@@ -58,4 +59,12 @@ const cards = [
  *
  * @param {array} deck A deck of cards
  */
-const logCardDeck = deck => {};
+const logCardDeck = deck => {
+  for (let i = 0; i < deck.length; i++) {
+    console.log(deck[i]);
+  }
+};
+
+logCardDeck(cards);
+
+})();
