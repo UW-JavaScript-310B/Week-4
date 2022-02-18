@@ -4,9 +4,18 @@
  */
 const getDeck = () => {
 
+    let suits = ['hearts', 'spades', 'clubs', 'diamonds']
+    let values = {'2':2, '3':3, '4':4, '5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'jack':10,'queen':10,'king':10,'ace':11}
+    let cards =[]
+    for (let suit of suits){
+        for (let value in values){
+            const card =
+                { val: values[value], displayVal: value, suit: suit }
+            cards.push(card)
+        }
+    }
+    return cards
 }
-
-
 
 // CHECKS
 const deck = getDeck();
