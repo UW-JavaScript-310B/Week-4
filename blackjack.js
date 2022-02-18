@@ -30,21 +30,36 @@ console.log("player:", player.hand)
  * @returns {number} blackJackScore.total
  * @returns {boolean} blackJackScore.isSoft
  */
+
+
+// i went through a few iterations of this function. this one works, but i feel like 
+// i can simplify this quite a bit (remove the handcards array, etc).
 const calcPoints = (hand) => {
-  let total = hand.reduce((previousValue, currentValue) => previousValue + currentValue.val, 0);
+  let hand1 = []
+  let handcards = []
   let isSoft = false;
-  const acePresent = hand.find(element => element.displayVal === 'ace');
-  for (let i = 0; i < hand.length; i++) {
-    if (acePresent > 1) {
-      hand[i].val === 1;
-      isSoft = true;
-    } else {
-      hand[i].val === hand.val;
+  // const acePresent = hand.find(element => element.displayVal === 'ace');
+  hand.forEach(card => {
+    if (card.displayVal === 'ace') {
+      if (hand1.displayVal.includes('ace')) {
+        card.val = 1;
+        hand1.push(card)
+        handcards.push(card.displayVal)
+        isSoft = true
+      } else {
+        hand1.push(card)
+        handcards.push(card.displayVal)
+      }
     }
-  }
+    else {
+      hand1.push(card)
+      handcards.push(card.displayVal)
+    }
+  });
+
+  let total = hand1.reduce((previousValue, currentValue) => previousValue + currentValue.val, 0);
   return blackJackScore = {total, isSoft};
 };
-
 
 /**
  * Determines whether the dealer should draw another card.
@@ -52,8 +67,7 @@ const calcPoints = (hand) => {
  * @param {Array} dealerHand Array of card objects with val, displayVal, suit properties
  * @returns {boolean} whether dealer should draw another card
  */
-// bug fix: dealerHand only returning the displayVal of first card in index. 
-// is this because in blackjack, dealer has one card face down, and one card face up?
+
 const dealerShouldDraw = (dealerHand) => {
   const dealerScore = calcPoints(dealerHand);
   if (dealerScore.total <= 16 || (dealerScore.total === 17 && dealerScore.isSoft == false)) {
@@ -80,7 +94,6 @@ const determineWinner = (playerScore, dealerScore) => {
     return console.log("no winner, PUSH");
   }
 }
-
 
 /**
  * Creates user prompt to ask if they'd like to draw a card
