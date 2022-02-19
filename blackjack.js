@@ -59,6 +59,8 @@ const calcPoints = (hand) => {
     total: 0,
     isSoft: false
   }
+  //isSoft - boolean - true if there is an Ace in the hand that is being counted as 11 points.  
+  //false if the hand has no Aces, or if all Aces are counting as 1 point
 
   //determine whether the hand is soft
   const isSoft = function (hand) {
@@ -76,6 +78,9 @@ const calcPoints = (hand) => {
       }
     }
     //end of isSoft function
+    else {
+      blackJackScore.isSoft = 'false';
+    }
     return (blackJackScore.isSoft);
   };
 
