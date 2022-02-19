@@ -67,11 +67,11 @@ const calcPoints = (hand) => {
       blackJackScore.isSoft = false;
     } else if (hand.some((card) => card.displayVal === 'Ace')) {
       //if some cards are an ace but no card has a value of 11   then hand is not soft
-      if (val !== 11) {
+      if (hand.val !== 11) {
         blackJackScore.isSoft = false;
       }
       //if any card has a value of eleven there must be at least one Ace making the hand soft
-      else if (val === 11) {
+      else if (hand.val === 11) {
         blackJackScore.isSoft = true;
       }
     }
@@ -99,12 +99,17 @@ const calcPoints = (hand) => {
     return (blackJackScore.total)
   }
   //call the isSOft function
+
   isSoft(hand);
+
   //call the blackJackTotal function
+
   blackJackTotal(hand);
+
   //return results of the function
-  console.log(blackJackScore);
+
   return blackJackScore;
+
   //end of calPoints function
 }
 
@@ -114,7 +119,7 @@ const calcPoints = (hand) => {
  * @param {Array} dealerHand Array of card objects with val, displayVal, suit properties
  * @returns {boolean} whether dealer should draw another card
  */
-
+// debugger
 //TODO
 const dealerShouldDraw = (dealerHand) => {
   // CREATE FUNCTION HERE
@@ -142,13 +147,9 @@ const dealerShouldDraw = (dealerHand) => {
 
 const determineWinner = (playerScore, dealerScore) => {
 
-  dealerScore = calcPoints(dealerHand);
-  // let playerPoints = calcPoints(player.hand.total);
-  // playerScore = playerPoints;
-
   if (dealerScore > 21) {
     return `Player score was ${playerScore}. Dealer Score was ${dealerScore}. Dealer scored more than 21 - Player wins`
-  } else if (playerScore <= 21 && playerScore > dealerScore) {
+  } else if (playerScore <= 21 && (playerScore > dealerScore)) {
     return `Player score was ${playerScore}. Dealer Score was ${dealerScore}. Player wins.`
   } else if (playerScore === dealerScore) {
     return `Player score was ${playerScore}. Dealer Score was ${dealerScore}. Player and Dealer are tied.`
@@ -157,7 +158,7 @@ const determineWinner = (playerScore, dealerScore) => {
   }
 
 };
-
+// determineWinner(playerScore, dealerScore)
 
 /**DELIVERED CODE STARTS HERE
  * Creates user prompt to ask if they'd like to draw a card
