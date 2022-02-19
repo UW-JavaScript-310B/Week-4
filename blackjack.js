@@ -5,12 +5,28 @@ const blackjackDeck = getDeck();
  * @constructor
  * @param {string} name - The name of the player
  */
-class CardPlayer {}; //TODO
+class CardPlayer {
+  constructor(name) {
+    this.name = name;
+    this.hand = [];
+
+    this.drawCard = function() {
+      this.hand.push(deck[Math.floor(Math.random() * 52)]);
+      
+    }
+  }
+
+  introduce() {
+    console.log(`Card player is ${this.name}`);
+  }
+};
 
 // CREATE TWO NEW CardPlayers
-const dealer; // TODO
-const player; // TODO
+const player = new CardPlayer('Player');
+const dealer = new CardPlayer('Dealer');
 
+player.introduce();
+dealer.introduce();
 /**
  * Calculates the score of a Blackjack hand
  * @param {Array} hand - Array of card objects with val, displayVal, suit properties
@@ -18,10 +34,47 @@ const player; // TODO
  * @returns {number} blackJackScore.total
  * @returns {boolean} blackJackScore.isSoft
  */
-const calcPoints = (hand) => {
-  // CREATE FUNCTION HERE
 
+
+const calcPoints = (hand) => {
+  let blackJackScore = {
+    total: 0,
+    isSoft: true
+
+  };
+
+
+  let isSoft = function (hand) {
+    if (hand.some((card) => card.displayVal === 'Ace' && hand.val === 11)) {
+      isSoft = true
+    } else if (hand.every((card) => card.displayVal !== 'Ace')) {
+      isSoft = false;
+    } else if (hand.every((card) => hand.val < 11)) {
+      isSoft = false;
+    }
+    return isSoft;
+  }
+
+
+  function totalScore(hand) {
+    blackJackScore.total = 0;
+    for (let index = 0; index < hand.length; index++) {
+      if ((blackJackScore.total + hand[index].val > 21) && hand[index].displayVal === 'Ace' && hand[index].val === 11) {
+        blackJackScore.total += 1
+      } else {
+        blackJackScore.total += hand[index].val
+
+      }
+
+    }
+    return blackJackScore.total;
+  }
+   isSoft(hand);
+   totalScore(hand);
+  return blackJackScore;
 }
+
+
 
 /**
  * Determines whether the dealer should draw another card.
@@ -30,7 +83,14 @@ const calcPoints = (hand) => {
  * @returns {boolean} whether dealer should draw another card
  */
 const dealerShouldDraw = (dealerHand) => {
-  // CREATE FUNCTION HERE
+  let dealerPoints = calcPoints(dealerHand);
+  if (dealerPoints.total <= 16) {
+    return true
+  } else if (dealerPoints.total === 17 && dealerPoints.isSoft === true) {
+    return true
+  } else if (dealerPoints.total > 17) {
+    return false
+  }
 
 }
 
@@ -41,7 +101,15 @@ const dealerShouldDraw = (dealerHand) => {
  * @returns {string} Shows the player's score, the dealer's score, and who wins
  */
 const determineWinner = (playerScore, dealerScore) => {
-  // CREATE FUNCTION HERE
+  if (dealerScore > 21) {
+    return `Player score = ${playerScore}, Dealer score = ${dealerScore} Dealer loses!`
+  } else if (playerScore <= 21 && playerScore > dealerScore) {
+    return `Player score = ${playerScore}, Dealer score = ${dealerScore} Player wins!`
+  } else if (playerScore === dealerScore) {
+    return `Player score = ${playerScore}, Dealer score = ${dealerScore} It's a tie!`
+  } else (dealerScore <= 21 && dealerScore > playerScore); {
+    return `Player score = ${playerScore}, Dealer score = ${dealerScore} Dealer wins!`
+  }
 
 }
 
@@ -66,7 +134,7 @@ const showHand = (player) => {
 /**
  * Runs Blackjack Game
  */
-const startGame = function() {
+const startGame = function () {
   player.drawCard();
   dealer.drawCard();
   player.drawCard();
@@ -97,4 +165,4 @@ const startGame = function() {
 
   return determineWinner(playerScore, dealerScore);
 }
-// console.log(startGame());
+console.log(startGame());
