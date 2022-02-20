@@ -1,17 +1,68 @@
-const cards = [
-  { val: 2, displayVal: "2", suit: "hearts" },
-  { val: 3, displayVal: "3", suit: "hearts" },
-  { val: 4, displayVal: "4", suit: "hearts" },
-  { val: 5, displayVal: "5", suit: "hearts" },
-  { val: 6, displayVal: "6", suit: "hearts" },
-  { val: 7, displayVal: "7", suit: "hearts" },
-  { val: 8, displayVal: "8", suit: "hearts" },
-  { val: 9, displayVal: "9", suit: "hearts" },
-  { val: 10, displayVal: "10", suit: "hearts" },
-  { val: 10, displayVal: "Jack", suit: "hearts" },
-  { val: 10, displayVal: "Queen", suit: "hearts" },
-  { val: 10, displayVal: "King", suit: "hearts" },
-  { val: 11, displayVal: "Ace", suit: "hearts" }
+const cards = [{
+    val: 2,
+    displayVal: "2",
+    suit: "hearts"
+  },
+  {
+    val: 3,
+    displayVal: "3",
+    suit: "hearts"
+  },
+  {
+    val: 4,
+    displayVal: "4",
+    suit: "hearts"
+  },
+  {
+    val: 5,
+    displayVal: "5",
+    suit: "hearts"
+  },
+  {
+    val: 6,
+    displayVal: "6",
+    suit: "hearts"
+  },
+  {
+    val: 7,
+    displayVal: "7",
+    suit: "hearts"
+  },
+  {
+    val: 8,
+    displayVal: "8",
+    suit: "hearts"
+  },
+  {
+    val: 9,
+    displayVal: "9",
+    suit: "hearts"
+  },
+  {
+    val: 10,
+    displayVal: "10",
+    suit: "hearts"
+  },
+  {
+    val: 10,
+    displayVal: "Jack",
+    suit: "hearts"
+  },
+  {
+    val: 10,
+    displayVal: "Queen",
+    suit: "hearts"
+  },
+  {
+    val: 10,
+    displayVal: "King",
+    suit: "hearts"
+  },
+  {
+    val: 11,
+    displayVal: "Ace",
+    suit: "hearts"
+  }
 ];
 
 /**
@@ -20,8 +71,24 @@ const cards = [
  *
  * @param {array} cards
  * @return {string} displayVal
+ * 
+ * 
  */
-const cardsWorthTen = cards => {};
+const cardsWorthTen = cards => {
+
+  let filteredCards = cards.filter((card) => card.val === 10);
+  let stringVal = [];
+
+  for (let i = 0; i < filteredCards.length; i++) {
+
+  stringVal.push( `${filteredCards[i].displayVal}`);
+
+  };
+
+
+  return stringVal.join(", ")
+};
 
 console.log(cardsWorthTen(cards));
+
 // should return/log "10, Jack, Queen, King"
