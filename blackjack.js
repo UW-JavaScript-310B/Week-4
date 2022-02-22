@@ -9,17 +9,20 @@ class CardPlayer {
   constructor(name) {
     this.name = name;
     this.hand = [];
+    this.cardElementId = '';
   }
 
   drawCard = () => {
     this.hand.push(blackjackDeck[Math.floor(Math.random() * 52)]);
+    document.getElementById(this.cardElementId).innerText = this.hand.map((card) => `${card.suit}-${card.displayVal}`).join(', ');
   };
-
 };
 
 // CREATE TWO NEW CardPlayers
 const dealer = new CardPlayer('dealer');
+dealer.cardElementId = 'dealerDiv';
 const player = new CardPlayer('player');
+player.cardElementId = 'playerDiv';
 
 /**
  * Calculates the score of a Blackjack hand
