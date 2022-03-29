@@ -5,11 +5,24 @@ const blackjackDeck = getDeck();
  * @constructor
  * @param {string} name - The name of the player
  */
-class CardPlayer {}; //TODO
+class CardPlayer {
+  constructor(name) {
+    this.name = name;
+    this.hand = [];
+    this.cardElementId = '';
+  }
+
+  drawCard = () => {
+    this.hand.push(blackjackDeck[Math.floor(Math.random() * 52)]);
+    document.getElementById(this.cardElementId).innerText = this.hand.map((card) => `${card.suit}-${card.displayVal}`).join(', ');
+  };
+};
 
 // CREATE TWO NEW CardPlayers
-const dealer; // TODO
-const player; // TODO
+const dealer = new CardPlayer('dealer');
+dealer.cardElementId = 'dealerDiv';
+const player = new CardPlayer('player');
+player.cardElementId = 'playerDiv';
 
 /**
  * Calculates the score of a Blackjack hand
@@ -19,8 +32,36 @@ const player; // TODO
  * @returns {boolean} blackJackScore.isSoft
  */
 const calcPoints = (hand) => {
-  // CREATE FUNCTION HERE
 
+  let isSoft = false;
+  let total = 0;
+  hand.forEach((card) => total += card.val);
+  let aceCollection = hand.filter((p) => p.displayVal === 'Ace');
+
+  if (total <= 21) {
+    isSoft = (aceCollection !== null && aceCollection.length > 0);
+  }
+  else if (total > 21) {
+    if (aceCollection !== null) {
+      let aceCount = aceCollection.length;
+      if (aceCount === 1)  // Only one ace is present
+      {
+        total -= 10;
+      }
+      else                // multiple aces
+      {
+        total -= 10 * (aceCount - 1);
+        if (total > 21) {
+          total -= 10;
+        }
+        else {            // There remains one ace which is still used as 11
+          isSoft = true;
+        }
+      }
+    }
+  }
+
+  return { isSoft, total };
 }
 
 /**
@@ -30,8 +71,14 @@ const calcPoints = (hand) => {
  * @returns {boolean} whether dealer should draw another card
  */
 const dealerShouldDraw = (dealerHand) => {
-  // CREATE FUNCTION HERE
-
+  let currentDealerState = calcPoints(dealerHand).total;
+  let isSoft = calcPoints(dealerHand).isSoft;
+  if(currentDealerState < 17 || (currentDealerState === 17 && isSoft)){
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 /**
@@ -41,8 +88,17 @@ const dealerShouldDraw = (dealerHand) => {
  * @returns {string} Shows the player's score, the dealer's score, and who wins
  */
 const determineWinner = (playerScore, dealerScore) => {
-  // CREATE FUNCTION HERE
-
+  let result = '';
+  if (playerScore > dealerScore) {
+    result = 'Winner: Player';
+  }
+  else if (playerScore < dealerScore) {
+    result = 'Winner: Dealer';
+  }
+  else {
+    result = 'Result: Tie';
+  }
+  return `Player Score: ${playerScore}, Dealer Score: ${dealerScore}, ${result}`;
 }
 
 /**
@@ -66,7 +122,7 @@ const showHand = (player) => {
 /**
  * Runs Blackjack Game
  */
-const startGame = function() {
+const startGame = function () {
   player.drawCard();
   dealer.drawCard();
   player.drawCard();
@@ -97,4 +153,4 @@ const startGame = function() {
 
   return determineWinner(playerScore, dealerScore);
 }
-// console.log(startGame());
+ console.log(startGame());
