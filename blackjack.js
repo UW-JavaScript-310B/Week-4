@@ -71,8 +71,14 @@ const calcPoints = (hand) => {
  * @returns {boolean} whether dealer should draw another card
  */
 const dealerShouldDraw = (dealerHand) => {
-  let currentDealerState = calcPoints(dealerHand);
-  return (currentDealerState.total < 21);
+  let currentDealerState = calcPoints(dealerHand).total;
+  let isSoft = calcPoints(dealerHand).isSoft;
+  if(currentDealerState < 17 || (currentDealerState === 17 && isSoft)){
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 /**
